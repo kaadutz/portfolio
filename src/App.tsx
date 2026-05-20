@@ -1,46 +1,54 @@
 import { useState, useEffect } from 'react';
-import './App.css';
 
-function App() {
+// Menentukan struktur data untuk list Pengalaman menggunakan TypeScript
+interface Experience {
+  id: number;
+  title: string;
+  role: string;
+  description: string;
+  image: string;
+}
+
+function App(): JSX.Element {
   // --- STATE UNTUK CAROUSEL EXPERIENCE ---
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-  // Data Pengalaman (Bisa kamu edit teksnya di sini)
-  const experiences = [
+  // Data Pengalaman (Tinggal kamu isi bagian image jika sudah ada fotonya)
+  const experiences: Experience[] = [
     {
       id: 1,
       title: "Internship (Praktik Kerja Lapangan)",
       role: "Logistics & Admin at PT. Telkom Akses (Jakarta Utara)",
       description: "Bertanggung jawab atas prosedur pelaksanaan stock opname dan manajemen logistik untuk perangkat keras/NTE. Memastikan akurasi data inventaris untuk mendukung efisiensi operasional perusahaan.",
-      image: "" // <- Masukkan link/path fotomu di sini nanti
+      image: "" // <- Contoh: "/images/telkom.jpg"
     },
     {
       id: 2,
       title: "Social Harmony Campaign Project",
       role: "Project Lead & Technical Role",
       description: "Memimpin produksi proyek video kreatif berjudul 'Jeda Sejenak'. Proyek ini merupakan kampanye sekolah yang bertujuan untuk mempromosikan toleransi dan kehidupan yang harmonis di lingkungan sosial.",
-      image: "" // <- Masukkan link/path fotomu di sini nanti
+      image: "" // <- Contoh: "/images/jeda-sejenak.jpg"
     },
     {
       id: 3,
       title: "Software Engineering Student",
       role: "SMK Negeri 71 Jakarta",
       description: "Siswa tingkat akhir jurusan Rekayasa Perangkat Lunak (RPL). Mengembangkan berbagai aplikasi fungsional berbasis web seperti sistem Point of Sales (Kasir) dan platform e-library (Libraria).",
-      image: "" // <- Masukkan link/path fotomu di sini nanti
+      image: "" // <- Contoh: "/images/school.jpg"
     }
   ];
 
-  const nextSlide = () => {
+  const nextSlide = (): void => {
     setCurrentSlide((prev) => (prev === experiences.length - 1 ? 0 : prev + 1));
   };
 
-  const prevSlide = () => {
+  const prevSlide = (): void => {
     setCurrentSlide((prev) => (prev === 0 ? experiences.length - 1 : prev - 1));
   };
 
   // --- EFEK SCROLL NAVBAR ---
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       const nav = document.getElementById('main-nav');
       if (!nav) return;
       
@@ -119,7 +127,6 @@ function App() {
               <div className="group cursor-pointer">
                 <div className="overflow-hidden rounded-2xl bg-surface-container shadow-[0_4px_20px_rgba(46,50,48,0.06)] mb-6 aspect-square relative bg-surface-variant flex items-center justify-center">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  {/* Placeholder Image */}
                   <span className="material-symbols-outlined text-5xl text-outline opacity-50 absolute z-0">image</span>
                   <img alt="Libraria project preview" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out relative z-10 opacity-0" src="" />
                 </div>
@@ -136,7 +143,6 @@ function App() {
               <div className="group cursor-pointer">
                 <div className="overflow-hidden rounded-2xl bg-secondary-container shadow-[0_4px_20px_rgba(46,50,48,0.06)] mb-6 aspect-square relative bg-surface-variant flex items-center justify-center">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  {/* Placeholder Image */}
                   <span className="material-symbols-outlined text-5xl text-outline opacity-50 absolute z-0">image</span>
                   <img alt="Sistem Kasir project preview" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out relative z-10 opacity-0" src="" />
                 </div>
@@ -153,7 +159,6 @@ function App() {
               <div className="group cursor-pointer">
                 <div className="overflow-hidden rounded-2xl bg-surface-container-high shadow-[0_4px_20px_rgba(46,50,48,0.06)] mb-6 aspect-square relative bg-surface-variant flex items-center justify-center">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  {/* Placeholder Image */}
                   <span className="material-symbols-outlined text-5xl text-outline opacity-50 absolute z-0">image</span>
                   <img alt="Logistics Management Preview" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out relative z-10 opacity-0" src="" />
                 </div>
@@ -193,7 +198,6 @@ function App() {
                 </div>
               </div>
               <div className="flex items-center justify-center lg:justify-end">
-                {/* Profile Picture Container */}
                 <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant shadow-[0_4px_20px_rgba(46,50,48,0.06)] flex flex-col items-center justify-center relative">
                   <span className="material-symbols-outlined text-6xl text-outline mb-4">account_circle</span>
                   <span className="font-label text-sm text-outline">[ Insert Profile Photo ]</span>
@@ -231,11 +235,11 @@ function App() {
           </div>
         </section>
 
-        {/* NEW SECTION: Experience (Carousel) */}
+        {/* Experience Section (Carousel) */}
         <section className="py-32 px-6 md:px-12 bg-surface" id="experience">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-baseline justify-between mb-16">
-              <h2 className="font-headline text-4xl md:text-5xl text-on-background">Experience & Roles</h2>
+              <h2 className="font-headline text-4xl md:text-5xl text-on-background">Experience &amp; Roles</h2>
               <div className="h-px bg-outline-variant flex-grow ml-8 opacity-50 hidden md:block"></div>
             </div>
 
@@ -261,7 +265,7 @@ function App() {
                   </div>
                 ))}
 
-                {/* Navigation Buttons (Muncul saat di hover) */}
+                {/* Navigation Buttons */}
                 <button
                   onClick={prevSlide}
                   className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-inverse-surface/40 hover:bg-primary text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
