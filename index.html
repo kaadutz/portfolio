@@ -1,13 +1,70 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>Raka Anugrah Satya - Portfolio</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind CDN & Config (Untuk tahap development/cepat) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f5f1ea",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#78a886",
+                        "tertiary-fixed-dim": "#dcc48e",
+                        "surface": "#faf6f0",
+                        "inverse-surface": "#2e3230",
+                        "primary-fixed-dim": "#8ecf9e",
+                        "tertiary": "#705c30",
+                        "surface-container": "#f0ece4",
+                        "surface-container-high": "#eae6de",
+                        "secondary-container": "#f0e8db",
+                        "primary": "#4a7c59",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#f8e0a8",
+                        "on-surface-variant": "#4a4e4a",
+                        "outline-variant": "#c4c8bc",
+                        "background": "#faf6f0",
+                        "on-background": "#2e3230",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#5e5548",
+                    },
+                    fontFamily: {
+                        "headline": ["Literata"],
+                        "body": ["Nunito Sans"],
+                        "label": ["Nunito Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #faf6f0;
+            color: #2e3230;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Literata', serif;
+        }
+    </style>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
