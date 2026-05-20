@@ -38,8 +38,6 @@ const dict = {
       title: "About Me",
       p1: "I am a web developer focused on creating structured, efficient, and dynamic digital solutions. My foundation lies in Software Engineering (Rekayasa Perangkat Lunak), where I developed a passion for full-stack architecture.",
       p2: "Based in Jakarta, my technical stack revolves around PHP, MySQL, JavaScript, and modern frameworks like React. From designing relational databases to building responsive interfaces, I approach development as a balanced mix of logic and creativity.",
-      philTitle: "Technical Philosophy",
-      philDesc: "Code should be clean, maintainable, and serve a clear purpose. Good software solves complex problems through straightforward logic.",
       photoHint: "[ Insert Profile Photo ]"
     },
     skills: {
@@ -83,8 +81,6 @@ const dict = {
       title: "Tentang Saya",
       p1: "Saya adalah pengembang web yang berfokus pada penciptaan solusi digital yang terstruktur, efisien, dan dinamis. Dasar saya berada di bidang Rekayasa Perangkat Lunak (RPL), tempat saya mengembangkan minat pada arsitektur full-stack.",
       p2: "Berbasis di Jakarta, keahlian teknis saya berpusat pada PHP, MySQL, JavaScript, dan framework modern seperti React. Dari merancang database relasional hingga membangun antarmuka responsif, saya menganggap pengembangan sebagai perpaduan antara logika dan kreativitas.",
-      philTitle: "Filosofi Teknis",
-      philDesc: "Kode harus bersih, mudah dipelihara, dan memiliki tujuan yang jelas. Perangkat lunak yang baik menyelesaikan masalah kompleks melalui logika yang lugas.",
       photoHint: "[ Masukkan Foto Profil ]"
     },
     skills: {
@@ -122,7 +118,7 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
           observer.unobserve(entry.target); 
         }
       });
-    });
+    }, { threshold: 0.1 }); // Menambahkan threshold agar animasi lebih mulus
 
     const currentRef = domRef.current;
     if (currentRef) observer.observe(currentRef);
@@ -165,8 +161,8 @@ function App(): JSX.Element {
 
   // Efek Navbar Scroll
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 80); // Diubah menjadi 80px agar transisi tidak terlalu sensitif
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -205,11 +201,12 @@ function App(): JSX.Element {
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
       {/* --- DYNAMIC NAVBAR --- */}
+      {/* Transisi dioptimalkan menggunakan ease-out dan durasi lebih panjang untuk efek yang lebih "soft" */}
       <nav 
-        className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-500 ease-in-out ${
+        className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-700 ease-out origin-top ${
           isScrolled 
-            ? 'top-6 w-[90%] md:w-auto max-w-4xl bg-background/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg rounded-full py-4 px-8 border border-outline-variant/20 dark:border-gray-700/50' 
-            : 'top-0 w-full bg-background dark:bg-gray-900 py-6 px-6 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
+            ? 'top-6 w-[90%] md:w-[700px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
+            : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-6 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
         }`}
       >
         <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold">
@@ -240,9 +237,19 @@ function App(): JSX.Element {
 
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
-        <section className="relative pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[819px]">
-          <div className="absolute top-1/4 left-10 w-64 h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-tertiary-container dark:bg-tertiary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <section 
+          className="relative pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[819px] overflow-hidden"
+        >
+          {/* Ilustrasi Background Ghibli Style */}
+          <div 
+            className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-center bg-fixed transition-opacity duration-1000"
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
+          ></div>
+          {/* Gradien overlay agar teks tetap terbaca */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background dark:via-gray-900/50 dark:to-gray-900 z-0"></div>
+
+          <div className="absolute top-1/4 left-10 w-64 h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse z-0"></div>
+          <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-tertiary-container dark:bg-tertiary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse z-0" style={{ animationDelay: '2s' }}></div>
           
           <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
             <div className="animate-[fadeInUp_1s_ease-out_0.2s_both]">
@@ -267,14 +274,14 @@ function App(): JSX.Element {
             </div>
           </div>
 
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce z-10">
             <span className="text-outline dark:text-gray-500 text-xs uppercase tracking-widest mb-2 font-label">{t.hero.scroll}</span>
             <span className="material-symbols-outlined text-outline dark:text-gray-500">arrow_downward</span>
           </div>
         </section>
 
         {/* --- PROJECTS SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden" id="work">
+        <section className="py-32 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-10" id="work">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-20">
@@ -350,15 +357,9 @@ function App(): JSX.Element {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
               <FadeInSection delay="100ms">
-                <div>
+                <div className="pt-8">
                   <p className="font-body text-xl text-on-surface-variant dark:text-gray-300 leading-relaxed mb-6">{t.about.p1}</p>
                   <p className="font-body text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed mb-12">{t.about.p2}</p>
-                  <div className="flex flex-col gap-6">
-                    <div className="border-l-2 border-primary dark:border-primary-fixed pl-6 py-2 hover:border-l-4 transition-all duration-300">
-                      <h4 className="font-headline text-xl text-on-background dark:text-white mb-2">{t.about.philTitle}</h4>
-                      <p className="font-body text-on-surface-variant dark:text-gray-400">{t.about.philDesc}</p>
-                    </div>
-                  </div>
                 </div>
               </FadeInSection>
               
@@ -485,8 +486,14 @@ function App(): JSX.Element {
 
         {/* --- CONTACT SECTION --- */}
         <section className="py-32 px-6 md:px-12 bg-secondary-container dark:bg-gray-900 relative overflow-hidden" id="contact">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2"></div>
+          {/* Ilustrasi Background Ghibli Style (Footer) */}
+          <div 
+            className="absolute inset-0 z-0 opacity-[0.1] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-bottom transition-opacity duration-1000"
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
+          ></div>
+
+          <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
           
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <FadeInSection>
@@ -502,7 +509,7 @@ function App(): JSX.Element {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-inverse-surface dark:bg-black full-width flat">
+      <footer className="bg-inverse-surface dark:bg-black full-width flat relative z-20">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full px-6 md:px-12 py-16 gap-8 max-w-7xl mx-auto">
           <div className="space-y-4">
             <span className="font-headline text-2xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
