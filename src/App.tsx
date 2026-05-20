@@ -20,11 +20,11 @@ const dict = {
   en: {
     nav: { work: "Projects", about: "About", exp: "Experience", contact: "Contact" },
     hero: {
-      role: "Software Engineering Student | SMKN 71 Jakarta",
+      role: "Fresh Graduate | Software Engineering",
       titleStart: "Ready to build ",
       titleItalic: "impactful",
       titleEnd: " digital solutions.",
-      desc: "I am a 12th-grade Software Engineering (RPL) student. Highly motivated, fluent in English (TOEIC 950), and eager to bring fresh perspectives, technical skills, and great teamwork to the professional industry.",
+      desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English (TOEIC 950) and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
       btn: "See My Profile",
       scroll: "Scroll"
     },
@@ -34,7 +34,7 @@ const dict = {
     },
     about: {
       title: "About Me",
-      p1: "I am currently in my final year studying Software Engineering (Rekayasa Perangkat Lunak) at SMK Negeri 71 Jakarta. During my studies, I have developed a strong foundation in building functional web-based systems, ranging from point-of-sale applications to e-library platforms.",
+      p1: "I am a recent Software Engineering (Rekayasa Perangkat Lunak) graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong foundation in building functional web-based systems, ranging from point-of-sale applications to e-library platforms.",
       p2: "Beyond coding, I possess excellent English communication skills, validated by a TOEIC score of 950. I am highly adaptable, enjoy collaborating within teams, and am actively seeking opportunities to start my career and grow in a real-world working environment.",
       photoHint: "[ Insert Profile Photo ]"
     },
@@ -44,8 +44,8 @@ const dict = {
       s1Desc: "Capable of building responsive and functional websites using technologies like PHP, MySQL, React, and Tailwind CSS.",
       s2: "English Proficiency",
       s2Desc: "Achieved a TOEIC score of 950, demonstrating a highly professional level of English for global business communication.",
-      s3: "Soft Skills & Teamwork",
-      s3Desc: "Strong communicator, highly adaptable, and experienced in collaborating within teams to execute technical and creative projects."
+      s3: "Adaptability & Collaboration",
+      s3Desc: "Proven ability to adapt quickly, lead creative projects, and collaborate effectively within professional environments."
     },
     exp: {
       title: "Experience & Awards",
@@ -61,11 +61,11 @@ const dict = {
   id: {
     nav: { work: "Proyek", about: "Tentang", exp: "Pengalaman", contact: "Kontak" },
     hero: {
-      role: "Siswa Rekayasa Perangkat Lunak | SMKN 71 Jakarta",
+      role: "Lulusan Baru | Rekayasa Perangkat Lunak",
       titleStart: "Siap berkontribusi membangun ",
       titleItalic: "solusi",
       titleEnd: " digital.",
-      desc: "Saya adalah siswa kelas 12 jurusan Rekayasa Perangkat Lunak. Memiliki motivasi tinggi, mahir berbahasa Inggris (TOEIC 950), dan siap memberikan kemampuan teknis serta kerja sama tim yang baik di dunia industri.",
+      desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris (TOEIC 950), dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
       btn: "Lihat Profil Saya",
       scroll: "Gulir"
     },
@@ -75,7 +75,7 @@ const dict = {
     },
     about: {
       title: "Tentang Saya",
-      p1: "Saya saat ini berada di tahun terakhir pendidikan jurusan Rekayasa Perangkat Lunak (RPL) di SMK Negeri 71 Jakarta. Selama masa sekolah, saya telah membangun dasar yang kuat dalam mengembangkan sistem berbasis web, mulai dari aplikasi kasir hingga platform e-library.",
+      p1: "Saya adalah lulusan baru jurusan Rekayasa Perangkat Lunak (RPL) dari SMK Negeri 71 Jakarta. Selama masa studi, saya telah membangun dasar yang kuat dalam mengembangkan sistem berbasis web, mulai dari aplikasi kasir hingga platform e-library.",
       p2: "Selain kemampuan pemrograman, saya memiliki kemampuan komunikasi bahasa Inggris yang sangat baik, dibuktikan dengan skor TOEIC 950. Saya mudah beradaptasi, senang bekerja dalam tim, dan sedang aktif mencari peluang untuk memulai karier di lingkungan kerja profesional.",
       photoHint: "[ Masukkan Foto Profil ]"
     },
@@ -85,8 +85,8 @@ const dict = {
       s1Desc: "Mampu membangun website yang responsif dan fungsional menggunakan teknologi seperti PHP, MySQL, React, dan Tailwind CSS.",
       s2: "Kemampuan Bahasa Inggris",
       s2Desc: "Meraih skor TOEIC 950, menunjukkan tingkat kemahiran bahasa Inggris profesional untuk komunikasi bisnis global.",
-      s3: "Soft Skills & Kerja Tim",
-      s3Desc: "Komunikator yang baik, mudah beradaptasi, dan berpengalaman dalam berkolaborasi untuk menjalankan proyek teknis maupun kreatif."
+      s3: "Adaptabilitas & Kolaborasi Tim",
+      s3Desc: "Terbukti mampu beradaptasi dengan cepat, memimpin proyek kreatif, dan berkolaborasi secara efektif di lingkungan profesional."
     },
     exp: {
       title: "Pengalaman & Penghargaan",
@@ -163,28 +163,28 @@ function App(): JSX.Element {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Data Projects (Untuk Carousel Baru)
+  // Data Projects
   const projectsData: CarouselItem[] = [
     {
       id: 1,
       title: "Libraria - E-Library Platform",
       descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.",
       descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.",
-      image: "" // <- Masukkan path gambar full screen project Libraria
+      image: "" 
     },
     {
       id: 2,
       title: "Point of Sales (Sistem Kasir)",
       descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.",
       descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.",
-      image: "" // <- Masukkan path gambar full screen project Kasir
+      image: "" 
     },
     {
       id: 3,
       title: "Stock Opname Dashboard",
       descEn: "A logistics monitoring dashboard developed to assist in tracking and updating hardware/NTE stock counts accurately.",
       descId: "Dasbor pemantauan logistik yang dikembangkan untuk membantu melacak dan memperbarui jumlah stok perangkat keras/NTE secara akurat.",
-      image: "" // <- Masukkan path gambar full screen project Dashboard
+      image: "" 
     }
   ];
 
@@ -192,7 +192,7 @@ function App(): JSX.Element {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-    }, 4000); // Berganti otomatis setiap 4 detik
+    }, 4000); 
     return () => clearInterval(timer);
   }, [projectsData.length]);
 
@@ -227,6 +227,19 @@ function App(): JSX.Element {
   const nextExpSlide = () => setCurrentExpSlide((prev) => (prev === experiencesData.length - 1 ? 0 : prev + 1));
   const prevExpSlide = () => setCurrentExpSlide((prev) => (prev === 0 ? experiencesData.length - 1 : prev - 1));
 
+  // --- SVG Icons Component ---
+  const GithubIcon = () => (
+    <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+    </svg>
+  );
+
+  const LinkedInIcon = () => (
+    <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+    </svg>
+  );
+
   return (
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
@@ -234,11 +247,16 @@ function App(): JSX.Element {
       <nav 
         className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-700 ease-out origin-top ${
           isScrolled 
-            ? 'top-6 w-[90%] md:w-[700px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
+            ? 'top-6 w-[90%] md:w-[750px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-6 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
             : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-6 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
         }`}
       >
-        <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold">
+        {/* LOGO INISIAL SEDERHANA */}
+        <div className={`font-headline font-bold text-lg md:text-xl tracking-tighter text-primary dark:text-primary-fixed mr-4 md:mr-8 transition-opacity duration-300 ${isScrolled ? 'opacity-0 hidden md:block' : 'opacity-100'}`}>
+          RAS.
+        </div>
+
+        <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full justify-center md:w-auto">
           <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#work">{t.nav.work}</a></li>
           <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#about">{t.nav.about}</a></li>
           <li className="hidden md:block"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#experience">{t.nav.exp}</a></li>
@@ -246,7 +264,7 @@ function App(): JSX.Element {
         </ul>
 
         {/* Action Toggles */}
-        <div className="flex items-center gap-4 ml-4 md:ml-8 pl-4 md:pl-8 border-l border-outline-variant/30 dark:border-gray-700">
+        <div className="flex items-center gap-4 ml-auto md:ml-8 pl-4 md:pl-8 border-l border-outline-variant/30 dark:border-gray-700">
           <button 
             onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
             className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
@@ -269,7 +287,6 @@ function App(): JSX.Element {
         <section 
           className="relative pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[819px] overflow-hidden"
         >
-          {/* Ilustrasi Background Ghibli Style */}
           <div 
             className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-center bg-fixed transition-opacity duration-1000"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
@@ -308,7 +325,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- PROJECTS SECTION (AUTO-CAROUSEL BESAR) --- */}
+        {/* --- PROJECTS SECTION --- */}
         <section className="py-32 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-10" id="work">
           <div className="max-w-6xl mx-auto">
             <FadeInSection>
@@ -327,7 +344,6 @@ function App(): JSX.Element {
                       index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
                     }`}
                   >
-                    {/* Gambar Project */}
                     {proj.image ? (
                       <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
                     ) : (
@@ -337,7 +353,6 @@ function App(): JSX.Element {
                       </div>
                     )}
                     
-                    {/* Overlay Gradient Teks di bawah */}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-32 pb-8 px-8 md:px-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
                       <div className="max-w-2xl">
                         <h3 className="font-headline text-3xl md:text-4xl text-white mb-3">{proj.title}</h3>
@@ -349,7 +364,6 @@ function App(): JSX.Element {
                   </div>
                 ))}
 
-                {/* Indikator Garis (Dots) */}
                 <div className="absolute top-6 right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full">
                   {projectsData.map((_, index) => (
                     <button
@@ -397,7 +411,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- EXPERTISE SECTION (3 Kotak Utama) --- */}
+        {/* --- EXPERTISE SECTION --- */}
         <section className="py-32 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900" id="skills">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
@@ -408,7 +422,6 @@ function App(): JSX.Element {
             </FadeInSection>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Box 1: Web Development */}
               <FadeInSection delay="100ms">
                 <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
                   <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
@@ -417,7 +430,6 @@ function App(): JSX.Element {
                 </div>
               </FadeInSection>
               
-              {/* Box 2: English Proficiency */}
               <FadeInSection delay="200ms">
                 <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
                   <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
@@ -426,7 +438,6 @@ function App(): JSX.Element {
                 </div>
               </FadeInSection>
               
-              {/* Box 3: Soft Skills */}
               <FadeInSection delay="300ms">
                 <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
                   <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
@@ -438,7 +449,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- EXPERIENCE SECTION (CAROUSEL PENGALAMAN) --- */}
+        {/* --- EXPERIENCE SECTION --- */}
         <section className="py-32 px-6 md:px-12 bg-surface dark:bg-gray-800/20" id="experience">
           <div className="max-w-5xl mx-auto">
             <FadeInSection>
@@ -521,10 +532,22 @@ function App(): JSX.Element {
             <FadeInSection>
               <h2 className="font-headline text-5xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
               <p className="font-body text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
-              <a className="inline-flex items-center justify-center px-10 py-5 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-lg tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-lg" href="mailto:raka.anugrah@example.com">
-                {t.contact.btn}
-                <span className="material-symbols-outlined ml-3 animate-pulse">mail</span>
-              </a>
+              
+              {/* Added Contact Buttons (Email, LinkedIn, Github) */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-base tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-lg w-full sm:w-auto" href="mailto:raka.anugrah@example.com">
+                  <span className="material-symbols-outlined mr-3">mail</span>
+                  {t.contact.btn}
+                </a>
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
+                  <LinkedInIcon />
+                  <span className="ml-3">LinkedIn</span>
+                </a>
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+                  <GithubIcon />
+                  <span className="ml-3">GitHub</span>
+                </a>
+              </div>
             </FadeInSection>
           </div>
         </section>
@@ -532,17 +555,35 @@ function App(): JSX.Element {
 
       {/* --- FOOTER --- */}
       <footer className="bg-inverse-surface dark:bg-black full-width flat relative z-20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full px-6 md:px-12 py-16 gap-8 max-w-7xl mx-auto">
-          <div className="space-y-4">
-            <span className="font-headline text-2xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-headline font-bold text-xl text-primary dark:text-primary-fixed">RAS.</span>
+              <span className="text-outline-variant dark:text-gray-600">|</span>
+              <span className="font-headline text-lg text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
+            </div>
             <p className="font-body text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed">
-              © {new Date().getFullYear()} Raka Anugrah Satya. {t.footer}
+              © {new Date().getFullYear()} Raka Anugrah Satya. <br/> {t.footer}
             </p>
           </div>
-          <ul className="flex flex-col md:flex-row gap-6 font-label text-sm tracking-wide">
-            <li><a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300" href="#">LinkedIn</a></li>
-            <li><a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300" href="#">GitHub</a></li>
-            <li><a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300" href="#">Email</a></li>
+          <ul className="flex items-center gap-6 font-label text-sm tracking-wide">
+            <li>
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
+                <LinkedInIcon />
+              </a>
+            </li>
+            <li>
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+                <GithubIcon />
+              </a>
+            </li>
+            <li>
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:raka.anugrah@example.com">
+                <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+              </a>
+            </li>
           </ul>
         </div>
       </footer>
