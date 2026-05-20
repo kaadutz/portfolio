@@ -24,9 +24,8 @@ const dict = {
       titleStart: "Ready to build ",
       titleItalic: "impactful",
       titleEnd: " digital solutions.",
-      desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English (TOEIC 950) and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
-      btn: "See My Profile",
-      scroll: "Scroll"
+      desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
+      btn: "See My Profile"
     },
     projects: {
       title: "Featured Projects",
@@ -35,7 +34,7 @@ const dict = {
     about: {
       title: "About Me",
       p1: "I am a recent Software Engineering (Rekayasa Perangkat Lunak) graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong foundation in building functional web-based systems, ranging from point-of-sale applications to e-library platforms.",
-      p2: "Beyond coding, I possess excellent English communication skills, validated by a TOEIC score of 950. I am highly adaptable, enjoy collaborating within teams, and am actively seeking opportunities to start my career and grow in a real-world working environment.",
+      p2: "Beyond coding, I possess excellent English communication skills and a highly adaptable mindset. I enjoy collaborating within teams and am actively seeking opportunities to start my career and grow in a real-world professional working environment.",
       photoHint: "[ Insert Profile Photo ]"
     },
     skills: {
@@ -43,7 +42,7 @@ const dict = {
       s1: "Web Development",
       s1Desc: "Capable of building responsive and functional websites using technologies like PHP, MySQL, React, and Tailwind CSS.",
       s2: "English Proficiency",
-      s2Desc: "Achieved a TOEIC score of 950, demonstrating a highly professional level of English for global business communication.",
+      s2Desc: "Achieved an outstanding TOEIC score of 950 in 2025 (the highest in the school at that time), improving from 920 in 2024. Demonstrates a highly professional level of English for global communication.",
       s3: "Adaptability & Collaboration",
       s3Desc: "Proven ability to adapt quickly, lead creative projects, and collaborate effectively within professional environments."
     },
@@ -65,9 +64,8 @@ const dict = {
       titleStart: "Siap berkontribusi membangun ",
       titleItalic: "solusi",
       titleEnd: " digital.",
-      desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris (TOEIC 950), dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
-      btn: "Lihat Profil Saya",
-      scroll: "Gulir"
+      desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris, dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
+      btn: "Lihat Profil Saya"
     },
     projects: {
       title: "Sorotan Proyek",
@@ -76,7 +74,7 @@ const dict = {
     about: {
       title: "Tentang Saya",
       p1: "Saya adalah lulusan baru jurusan Rekayasa Perangkat Lunak (RPL) dari SMK Negeri 71 Jakarta. Selama masa studi, saya telah membangun dasar yang kuat dalam mengembangkan sistem berbasis web, mulai dari aplikasi kasir hingga platform e-library.",
-      p2: "Selain kemampuan pemrograman, saya memiliki kemampuan komunikasi bahasa Inggris yang sangat baik, dibuktikan dengan skor TOEIC 950. Saya mudah beradaptasi, senang bekerja dalam tim, dan sedang aktif mencari peluang untuk memulai karier di lingkungan kerja profesional.",
+      p2: "Selain kemampuan pemrograman, saya memiliki kemampuan komunikasi bahasa Inggris yang sangat baik dan pola pikir yang mudah beradaptasi. Saya senang bekerja dalam tim dan sedang aktif mencari peluang untuk memulai karier di lingkungan kerja profesional.",
       photoHint: "[ Masukkan Foto Profil ]"
     },
     skills: {
@@ -84,7 +82,7 @@ const dict = {
       s1: "Pengembangan Web",
       s1Desc: "Mampu membangun website yang responsif dan fungsional menggunakan teknologi seperti PHP, MySQL, React, dan Tailwind CSS.",
       s2: "Kemampuan Bahasa Inggris",
-      s2Desc: "Meraih skor TOEIC 950, menunjukkan tingkat kemahiran bahasa Inggris profesional untuk komunikasi bisnis global.",
+      s2Desc: "Meraih skor TOEIC 950 pada tahun 2025 (tertinggi di sekolah saat itu), meningkat dari skor 920 di tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional untuk komunikasi global.",
       s3: "Adaptabilitas & Kolaborasi Tim",
       s3Desc: "Terbukti mampu beradaptasi dengan cepat, memimpin proyek kreatif, dan berkolaborasi secara efektif di lingkungan profesional."
     },
@@ -210,8 +208,8 @@ function App(): JSX.Element {
       id: 2,
       title: "TOEIC Certification (Score: 950)",
       role: "English Proficiency Award",
-      descEn: "Achieved an outstanding TOEIC score of 950, demonstrating professional-level English proficiency ready for global business communication.",
-      descId: "Meraih skor TOEIC 950 yang luar biasa, menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
+      descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
+      descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
       image: "" 
     },
     {
@@ -247,15 +245,10 @@ function App(): JSX.Element {
       <nav 
         className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-700 ease-out origin-top ${
           isScrolled 
-            ? 'top-6 w-[90%] md:w-[750px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-6 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
+            ? 'top-6 w-[90%] md:w-[600px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-6 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
             : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-6 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
         }`}
       >
-        {/* LOGO INISIAL SEDERHANA */}
-        <div className={`font-headline font-bold text-lg md:text-xl tracking-tighter text-primary dark:text-primary-fixed mr-4 md:mr-8 transition-opacity duration-300 ${isScrolled ? 'opacity-0 hidden md:block' : 'opacity-100'}`}>
-          RAS.
-        </div>
-
         <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full justify-center md:w-auto">
           <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#work">{t.nav.work}</a></li>
           <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#about">{t.nav.about}</a></li>
@@ -317,11 +310,6 @@ function App(): JSX.Element {
                 </a>
               </div>
             </div>
-          </div>
-
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce z-10">
-            <span className="text-outline dark:text-gray-500 text-xs uppercase tracking-widest mb-2 font-label">{t.hero.scroll}</span>
-            <span className="material-symbols-outlined text-outline dark:text-gray-500">arrow_downward</span>
           </div>
         </section>
 
@@ -533,7 +521,6 @@ function App(): JSX.Element {
               <h2 className="font-headline text-5xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
               <p className="font-body text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
               
-              {/* Added Contact Buttons (Email, LinkedIn, Github) */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-base tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-lg w-full sm:w-auto" href="mailto:raka.anugrah@example.com">
                   <span className="material-symbols-outlined mr-3">mail</span>
@@ -558,9 +545,7 @@ function App(): JSX.Element {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-headline font-bold text-xl text-primary dark:text-primary-fixed">RAS.</span>
-              <span className="text-outline-variant dark:text-gray-600">|</span>
-              <span className="font-headline text-lg text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
+              <span className="font-headline text-xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
             </div>
             <p className="font-body text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed">
               © {new Date().getFullYear()} Raka Anugrah Satya. <br/> {t.footer}
