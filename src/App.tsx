@@ -28,8 +28,7 @@ const dict = {
       btn: "See My Profile"
     },
     projects: {
-      title: "Featured Projects",
-      viewProject: "View Project"
+      title: "Featured Projects"
     },
     about: {
       title: "About Me",
@@ -67,8 +66,7 @@ const dict = {
       btn: "Lihat Profil Saya"
     },
     projects: {
-      title: "Sorotan Proyek",
-      viewProject: "Lihat Proyek"
+      title: "Sorotan Proyek"
     },
     about: {
       title: "Tentang Saya",
@@ -97,7 +95,7 @@ const dict = {
   }
 };
 
-// --- KOMPONEN ANIMASI SCROLL ---
+// --- KOMPONEN ANIMASI SCROLL SECTION ---
 const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
@@ -132,12 +130,22 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
 
 // --- KOMPONEN UTAMA ---
 function App(): JSX.Element {
-  // States
-  const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
-  const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
   const [isDark, setIsDark] = useState<boolean>(false);
+  
+  // UI & Animation States
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [activeSection, setActiveSection] = useState<string>('');
+  
+  // Carousel States
+  const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
+  const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
+
+  // Nav Sliding Hover State
+  const navRef = useRef<HTMLUListElement>(null);
+  const [hoverStyle, setHoverStyle] = useState({ opacity: 0, left: 0, width: 0 });
 
   const t = dict[lang];
 
@@ -152,14 +160,55 @@ function App(): JSX.Element {
     }
   }, [isDark]);
 
-  // Efek Navbar Scroll
+  // Efek Scroll Interaktif (Navbar Floating, Progress Bar, Auto-Active Scroll Spy)
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 80);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      
+      // 1. Toggle Floating Navbar
+      setIsScrolled(scrollY > 80);
+
+      // 2. Reading Progress Bar
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (scrollY / height) * 100;
+      setScrollProgress(scrolled);
+
+      // 3. Scroll Spy (Mendeteksi section mana yang sedang dilihat)
+      const sections = ['work', 'about', 'skills', 'experience', 'contact'];
+      let current = '';
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          // Offset 300px agar deteksi lebih responsif sebelum section benar-benar di ujung atas
+          if (scrollY >= element.offsetTop - 300) {
+            current = section;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Data Projects
+  // Fungsi untuk Sliding Hover Navbar
+  const handleNavHover = (e: React.MouseEvent<HTMLLIElement>) => {
+    if (!navRef.current) return;
+    const targetRect = e.currentTarget.getBoundingClientRect();
+    const navRect = navRef.current.getBoundingClientRect();
+    setHoverStyle({
+      opacity: 1,
+      left: targetRect.left - navRect.left,
+      width: targetRect.width,
+    });
+  };
+
+  const handleNavLeave = () => {
+    setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  // Data Projects & Carousel Effect
   const projectsData: CarouselItem[] = [
     {
       id: 1,
@@ -184,7 +233,6 @@ function App(): JSX.Element {
     }
   ];
 
-  // Auto-play Effect untuk Projects Carousel
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
@@ -239,38 +287,79 @@ function App(): JSX.Element {
   return (
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
-      {/* --- DYNAMIC NAVBAR (MOBILE SCROLLABLE) --- */}
+      {/* --- SCROLL READING PROGRESS BAR --- */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-primary dark:bg-primary-fixed z-[60] transition-all duration-200 ease-out" 
+        style={{ width: `${scrollProgress}%` }}
+      />
+
+      {/* --- ULTRA-PREMIUM DYNAMIC NAVBAR --- */}
       <nav 
-        className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-700 ease-out origin-top ${
+        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-700 ease-out origin-top ${
           isScrolled 
-            ? 'top-6 w-[95%] md:w-[650px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-4 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
+            ? 'top-4 w-[95%] md:w-auto md:min-w-[700px] bg-background/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-[0_8px_32px_rgba(46,50,48,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-white/10 scale-100' 
             : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
         }`}
       >
-        {/* Menu dengan overflow-x-auto agar bisa digeser di layar kecil, disembunyikan scrollbarnya dengan class inline */}
-        <ul className="flex items-center gap-6 md:gap-8 font-label text-[11px] md:text-sm uppercase tracking-widest font-bold w-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#work">{t.nav.work}</a></li>
-          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#about">{t.nav.about}</a></li>
-          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#experience">{t.nav.exp}</a></li>
-          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#contact">{t.nav.contact}</a></li>
-        </ul>
+        <div className="flex items-center w-full max-w-7xl mx-auto">
+          
+          {/* Kiri: Kosong (Untuk menyeimbangkan ruang kanan agar menu navigasi persis di tengah) */}
+          <div className="hidden md:flex flex-1"></div>
 
-        {/* Action Toggles */}
-        <div className="flex items-center gap-3 ml-4 pl-4 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
-          <button 
-            onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-            className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
-          >
-            {lang === 'en' ? 'ID' : 'EN'}
-          </button>
-          <button 
-            onClick={() => setIsDark(!isDark)}
-            className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center"
-          >
-            <span className="material-symbols-outlined text-xl md:text-2xl">
-              {isDark ? 'light_mode' : 'dark_mode'}
-            </span>
-          </button>
+          {/* Tengah: Menu Navigasi (Dengan Sliding Hover & Auto-Active) */}
+          <div className="flex-1 md:flex-none flex justify-center overflow-x-auto scrollbar-hide w-full md:w-auto">
+            <ul 
+              ref={navRef} 
+              onMouseLeave={handleNavLeave}
+              className="flex items-center gap-1 md:gap-2 relative py-1 px-2"
+            >
+              {/* Animasi Pil (Sliding Background Hover) */}
+              <div 
+                className="absolute h-[calc(100%-8px)] top-1 bg-primary/10 dark:bg-primary-fixed/20 rounded-full transition-all duration-300 ease-out pointer-events-none"
+                style={{ left: hoverStyle.left, width: hoverStyle.width, opacity: hoverStyle.opacity }}
+              />
+
+              <li onMouseEnter={handleNavHover} className="relative z-10 shrink-0">
+                <a href="#work" className={`px-4 py-2 block font-label text-[11px] md:text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === 'work' ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav.work}
+                </a>
+              </li>
+              <li onMouseEnter={handleNavHover} className="relative z-10 shrink-0">
+                <a href="#about" className={`px-4 py-2 block font-label text-[11px] md:text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === 'about' || activeSection === 'skills' ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav.about}
+                </a>
+              </li>
+              <li onMouseEnter={handleNavHover} className="relative z-10 shrink-0 hidden md:block">
+                <a href="#experience" className={`px-4 py-2 block font-label text-[11px] md:text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === 'experience' ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav.exp}
+                </a>
+              </li>
+              <li onMouseEnter={handleNavHover} className="relative z-10 shrink-0 hidden md:block">
+                <a href="#contact" className={`px-4 py-2 block font-label text-[11px] md:text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === 'contact' ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav.contact}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Kanan: Action Toggles */}
+          <div className="flex-1 flex items-center justify-end gap-3 ml-2 md:ml-0 pl-3 md:pl-0 border-l md:border-none border-outline-variant/30 dark:border-gray-700 shrink-0">
+            <button 
+              onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
+              className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
+            >
+              {lang === 'en' ? 'ID' : 'EN'}
+            </button>
+            <button 
+              onClick={() => setIsDark(!isDark)}
+              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 rounded-full shadow-sm"
+            >
+              <span className="material-symbols-outlined text-[18px] md:text-xl">
+                {isDark ? 'light_mode' : 'dark_mode'}
+              </span>
+            </button>
+          </div>
+
         </div>
       </nav>
 
@@ -340,7 +429,6 @@ function App(): JSX.Element {
                       </div>
                     )}
                     
-                    {/* Teks Deskripsi overlay yang aman untuk mobile (line-clamp-3) */}
                     <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
                       <div className="max-w-2xl mt-12 md:mt-0">
                         <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
@@ -368,7 +456,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- ABOUT SECTION (Dengan Foto fotogw.jpeg) --- */}
+        {/* --- ABOUT SECTION --- */}
         <section className="py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50" id="about">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
@@ -388,7 +476,6 @@ function App(): JSX.Element {
               
               <FadeInSection delay="300ms">
                 <div className="flex items-center justify-center lg:justify-end">
-                  {/* Foto Profil */}
                   <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
                     <img 
                       alt="Raka Anugrah Satya Profile" 
