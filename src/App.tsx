@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode, useCallback } from 'react';
+import { useState, useEffect, useRef, ReactNode } from 'react';
 
 // --- TIPE DATA ---
 interface CarouselItem {
