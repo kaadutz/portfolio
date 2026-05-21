@@ -393,7 +393,7 @@ function App(): JSX.Element {
                     <img 
                       alt="Raka Anugrah Satya Profile" 
                       className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
-                      src="/fotogw.jpeg" 
+                      src="/images/fotogw.jpeg" 
                     />
                   </div>
                 </div>
