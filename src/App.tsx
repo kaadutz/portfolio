@@ -33,9 +33,8 @@ const dict = {
     },
     about: {
       title: "About Me",
-      p1: "I am a recent Software Engineering (Rekayasa Perangkat Lunak) graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong foundation in building functional web-based systems, ranging from point-of-sale applications to e-library platforms.",
-      p2: "Beyond coding, I possess excellent English communication skills and a highly adaptable mindset. I enjoy collaborating within teams and am actively seeking opportunities to start my career and grow in a real-world professional working environment.",
-      photoHint: "[ Insert Profile Photo ]"
+      p1: "Hello! I'm Raka Anugrah Satya, a Software Engineering fresh graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong passion for designing and building web systems that are both functional and efficient, such as Point of Sales (POS) applications and digital library platforms.",
+      p2: "I possess professional-level English communication skills, validated by an outstanding TOEIC score of 950—the highest in my school in 2025. Beyond my technical skills, I am highly adaptable and experienced in working within teams, a skill honed through various collaborative projects. I am now eager to bring my enthusiasm, technical foundation, and teamwork skills to start my professional career in the tech industry.",
     },
     skills: {
       title: "Core Competencies",
@@ -73,9 +72,8 @@ const dict = {
     },
     about: {
       title: "Tentang Saya",
-      p1: "Saya adalah lulusan baru jurusan Rekayasa Perangkat Lunak (RPL) dari SMK Negeri 71 Jakarta. Selama masa studi, saya telah membangun dasar yang kuat dalam mengembangkan sistem berbasis web, mulai dari aplikasi kasir hingga platform e-library.",
-      p2: "Selain kemampuan pemrograman, saya memiliki kemampuan komunikasi bahasa Inggris yang sangat baik dan pola pikir yang mudah beradaptasi. Saya senang bekerja dalam tim dan sedang aktif mencari peluang untuk memulai karier di lingkungan kerja profesional.",
-      photoHint: "[ Masukkan Foto Profil ]"
+      p1: "Halo! Saya Raka Anugrah Satya, lulusan baru (fresh graduate) jurusan Rekayasa Perangkat Lunak dari SMK Negeri 71 Jakarta. Selama masa studi, saya menemukan minat yang besar dalam merancang dan membangun sistem web yang fungsional dan efisien, seperti aplikasi sistem kasir (POS) dan platform perpustakaan digital.",
+      p2: "Saya memiliki kemampuan komunikasi bahasa Inggris yang profesional, dibuktikan dengan skor TOEIC 950 (tertinggi di sekolah pada tahun 2025). Selain keahlian teknis, saya adalah pribadi yang adaptif dan terbiasa bekerja dalam tim, yang terasah melalui berbagai proyek kreatif dan kolaborasi selama masa studi. Saat ini, saya sangat antusias mencari peluang untuk memulai karier dan memberikan kontribusi nyata di industri teknologi.",
     },
     skills: {
       title: "Kompetensi Utama",
@@ -241,23 +239,24 @@ function App(): JSX.Element {
   return (
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
-      {/* --- DYNAMIC NAVBAR --- */}
+      {/* --- DYNAMIC NAVBAR (MOBILE SCROLLABLE) --- */}
       <nav 
         className={`fixed z-50 left-1/2 transform -translate-x-1/2 flex justify-between items-center transition-all duration-700 ease-out origin-top ${
           isScrolled 
-            ? 'top-6 w-[90%] md:w-[600px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-6 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
-            : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-6 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
+            ? 'top-6 w-[95%] md:w-[650px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-4 px-4 md:px-8 border border-outline-variant/30 dark:border-gray-700/50 scale-100' 
+            : 'top-0 w-full bg-background/95 dark:bg-gray-900/95 py-6 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800 scale-100'
         }`}
       >
-        <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full justify-center md:w-auto">
-          <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#work">{t.nav.work}</a></li>
-          <li><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#about">{t.nav.about}</a></li>
-          <li className="hidden md:block"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#experience">{t.nav.exp}</a></li>
-          <li className="hidden md:block"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#contact">{t.nav.contact}</a></li>
+        {/* Menu dengan overflow-x-auto agar bisa digeser di layar kecil, disembunyikan scrollbarnya dengan class inline */}
+        <ul className="flex items-center gap-6 md:gap-8 font-label text-[11px] md:text-sm uppercase tracking-widest font-bold w-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#work">{t.nav.work}</a></li>
+          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#about">{t.nav.about}</a></li>
+          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#experience">{t.nav.exp}</a></li>
+          <li className="shrink-0"><a className="text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-300" href="#contact">{t.nav.contact}</a></li>
         </ul>
 
         {/* Action Toggles */}
-        <div className="flex items-center gap-4 ml-auto md:ml-8 pl-4 md:pl-8 border-l border-outline-variant/30 dark:border-gray-700">
+        <div className="flex items-center gap-3 ml-4 pl-4 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
           <button 
             onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
             className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
@@ -291,7 +290,7 @@ function App(): JSX.Element {
           
           <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
             <div className="animate-[fadeInUp_1s_ease-out_0.2s_both]">
-              <p className="font-label text-sm uppercase tracking-[0.15em] text-tertiary dark:text-tertiary-fixed font-bold mb-4 bg-tertiary/10 dark:bg-tertiary-fixed/10 inline-block px-4 py-2 rounded-full border border-tertiary/20">
+              <p className="font-label text-xs md:text-sm uppercase tracking-[0.15em] text-tertiary dark:text-tertiary-fixed font-bold mb-4 bg-tertiary/10 dark:bg-tertiary-fixed/10 inline-block px-4 py-2 rounded-full border border-tertiary/20">
                 {t.hero.role}
               </p>
               <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6">
@@ -324,7 +323,7 @@ function App(): JSX.Element {
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <div className="relative w-full aspect-video md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
+              <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
                 {projectsData.map((proj, index) => (
                   <div
                     key={proj.id}
@@ -337,14 +336,15 @@ function App(): JSX.Element {
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
                         <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
-                        <span className="font-label text-sm tracking-widest uppercase opacity-70">[ Insert {proj.title} Screenshot ]</span>
+                        <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
                       </div>
                     )}
                     
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-32 pb-8 px-8 md:px-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                      <div className="max-w-2xl">
-                        <h3 className="font-headline text-3xl md:text-4xl text-white mb-3">{proj.title}</h3>
-                        <p className="font-body text-gray-300 text-sm md:text-base leading-relaxed">
+                    {/* Teks Deskripsi overlay yang aman untuk mobile (line-clamp-3) */}
+                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
+                      <div className="max-w-2xl mt-12 md:mt-0">
+                        <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
+                        <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
                           {lang === 'en' ? proj.descEn : proj.descId}
                         </p>
                       </div>
@@ -352,13 +352,13 @@ function App(): JSX.Element {
                   </div>
                 ))}
 
-                <div className="absolute top-6 right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full">
+                <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
                   {projectsData.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentProjSlide(index)}
                       className={`h-1.5 rounded-full transition-all duration-500 ${
-                        index === currentProjSlide ? "bg-primary-fixed w-6" : "bg-white/50 w-2 hover:bg-white"
+                        index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
                       }`}
                     />
                   ))}
@@ -368,7 +368,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- ABOUT SECTION --- */}
+        {/* --- ABOUT SECTION (Dengan Foto fotogw.jpeg) --- */}
         <section className="py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50" id="about">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
@@ -378,9 +378,9 @@ function App(): JSX.Element {
               </div>
             </FadeInSection>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <FadeInSection delay="100ms">
-                <div className="pt-4">
+                <div>
                   <p className="font-body text-xl text-on-surface-variant dark:text-gray-300 leading-relaxed mb-6">{t.about.p1}</p>
                   <p className="font-body text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed mb-12">{t.about.p2}</p>
                 </div>
@@ -388,10 +388,13 @@ function App(): JSX.Element {
               
               <FadeInSection delay="300ms">
                 <div className="flex items-center justify-center lg:justify-end">
-                  <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group">
-                    <span className="material-symbols-outlined text-6xl text-outline dark:text-gray-600 mb-4 group-hover:scale-110 transition-transform duration-500">account_circle</span>
-                    <span className="font-label text-sm text-outline dark:text-gray-500">{t.about.photoHint}</span>
-                    <img alt="Raka Anugrah Satya Profile" className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 opacity-0" src="" />
+                  {/* Foto Profil */}
+                  <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
+                    <img 
+                      alt="Raka Anugrah Satya Profile" 
+                      className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
+                      src="/fotogw.jpeg" 
+                    />
                   </div>
                 </div>
               </FadeInSection>
@@ -470,22 +473,22 @@ function App(): JSX.Element {
 
                   <button
                     onClick={prevExpSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
                   >
-                    <span className="material-symbols-outlined">chevron_left</span>
+                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
                   </button>
                   <button
                     onClick={nextExpSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
                   >
-                    <span className="material-symbols-outlined">chevron_right</span>
+                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
                   </button>
                 </div>
 
                 <div className="text-center md:text-left min-h-[140px] px-4 md:px-0">
-                  <h3 className="font-headline text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
-                  <p className="font-label text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-4">{experiencesData[currentExpSlide].role}</p>
-                  <p className="font-body text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed max-w-3xl">
+                  <h3 className="font-headline text-2xl md:text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
+                  <p className="font-label text-xs md:text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-4">{experiencesData[currentExpSlide].role}</p>
+                  <p className="font-body text-sm md:text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed max-w-3xl">
                     {lang === 'en' ? experiencesData[currentExpSlide].descEn : experiencesData[currentExpSlide].descId}
                   </p>
                 </div>
@@ -495,8 +498,8 @@ function App(): JSX.Element {
                     <button
                       key={index}
                       onClick={() => setCurrentExpSlide(index)}
-                      className={`h-2 rounded-full transition-all duration-500 ${
-                        index === currentExpSlide ? "bg-primary dark:bg-primary-fixed w-8" : "bg-outline-variant dark:bg-gray-600 w-2 hover:bg-outline dark:hover:bg-gray-500"
+                      className={`h-1.5 md:h-2 rounded-full transition-all duration-500 ${
+                        index === currentExpSlide ? "bg-primary dark:bg-primary-fixed w-6 md:w-8" : "bg-outline-variant dark:bg-gray-600 w-1.5 md:w-2 hover:bg-outline dark:hover:bg-gray-500"
                       }`}
                     />
                   ))}
@@ -518,19 +521,19 @@ function App(): JSX.Element {
           
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <FadeInSection>
-              <h2 className="font-headline text-5xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
-              <p className="font-body text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
+              <h2 className="font-headline text-4xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
+              <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-base tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-lg w-full sm:w-auto" href="mailto:raka.anugrah@example.com">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:-translate-y-1 transition-all duration-300 shadow-lg w-full sm:w-auto" href="mailto:raka.anugrah@example.com">
                   <span className="material-symbols-outlined mr-3">mail</span>
                   {t.contact.btn}
                 </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
                   <LinkedInIcon />
                   <span className="ml-3">LinkedIn</span>
                 </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
                   <GithubIcon />
                   <span className="ml-3">GitHub</span>
                 </a>
@@ -542,29 +545,27 @@ function App(): JSX.Element {
 
       {/* --- FOOTER --- */}
       <footer className="bg-inverse-surface dark:bg-black full-width flat relative z-20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-headline text-xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
-            </div>
-            <p className="font-body text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
+          <div className="space-y-2 text-center md:text-left">
+            <span className="font-headline text-lg md:text-xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
+            <p className="font-body text-xs md:text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed mx-auto md:mx-0">
               © {new Date().getFullYear()} Raka Anugrah Satya. <br/> {t.footer}
             </p>
           </div>
           <ul className="flex items-center gap-6 font-label text-sm tracking-wide">
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <LinkedInIcon />
               </a>
             </li>
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://github.com/yourusername" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <GithubIcon />
               </a>
             </li>
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:raka.anugrah@example.com">
-                <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:raka.anugrah@example.com" aria-label="Email">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
               </a>
