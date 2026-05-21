@@ -137,15 +137,10 @@ function App(): JSX.Element {
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false); 
   
   // Carousel States
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
   const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
-
-  // Nav Sliding Hover State
-  const navRef = useRef<HTMLUListElement>(null);
-  const [hoverStyle, setHoverStyle] = useState({ opacity: 0, left: 0, width: 0 });
 
   const t = dict[lang];
 
@@ -183,24 +178,6 @@ function App(): JSX.Element {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Fungsi untuk Sliding Hover Navbar Desktop
-  const handleNavHover = (e: React.MouseEvent<HTMLLIElement>) => {
-    if (!navRef.current) return;
-    const targetRect = e.currentTarget.getBoundingClientRect();
-    const navRect = navRef.current.getBoundingClientRect();
-    setHoverStyle({
-      opacity: 1,
-      left: targetRect.left - navRect.left,
-      width: targetRect.width,
-    });
-  };
-
-  const handleNavLeave = () => {
-    setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
-  };
-
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   // Data Projects (Diperbarui dengan gambar dan tambahan proyek Fiver)
   const projectsData: CarouselItem[] = [
