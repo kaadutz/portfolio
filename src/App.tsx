@@ -15,10 +15,10 @@ interface FadeInSectionProps {
   delay?: string;
 }
 
-// --- KAMUS BAHASA (BILINGUAL) ---
+// --- KAMUS BAHASA ---
 const dict = {
   en: {
-    nav: { work: "Projects", about: "About", experience: "Experience", contact: "Contact" },
+    nav: { work: "Projects", about: "About", exp: "Experience", contact: "Contact" },
     hero: {
       role: "Fresh Graduate | Software Engineering",
       titleStart: "Ready to build ",
@@ -27,27 +27,22 @@ const dict = {
       desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
       btn: "See My Profile"
     },
-    projects: {
-      title: "Featured Projects"
-    },
+    projects: { title: "Featured Projects" },
     about: {
       title: "About Me",
       p1: "Hello! I'm Raka Anugrah Satya, a Software Engineering fresh graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong passion for designing and building web systems that are both functional and efficient, such as Point of Sales (POS) applications and digital library platforms.",
-      p2: "I possess professional-level English communication skills, validated by an outstanding TOEIC score of 950—the highest in my school in 2025. Beyond my technical skills, I am highly adaptable and experienced in working within teams, a skill honed through various collaborative projects. I am now eager to bring my enthusiasm, technical foundation, and teamwork skills to start my professional career in the tech industry.",
+      p2: "I possess professional-level English communication skills, validated by a TOEIC score of 950—the highest in my school in 2025. Beyond my technical skills, I am highly adaptable and experienced in working within teams, a skill honed through various collaborative projects. I am now eager to bring my enthusiasm, technical foundation, and teamwork skills to start my professional career in the tech industry.",
     },
     skills: {
       title: "Core Competencies",
-      s1: "Web Development",
-      s1Desc: "Capable of building responsive and functional websites using technologies like PHP, MySQL, React, and Tailwind CSS.",
+      s1: "Web Development & Cloud",
+      s1Desc: "Skilled in PHP, MySQL, React, and Tailwind. Certified in Cloud Computing (AWS) and proficient in Microsoft Office suite.",
       s2: "English Proficiency",
-      s2Desc: "Achieved an outstanding TOEIC score of 950 in 2025 (the highest in the school at that time), improving from 920 in 2024. Demonstrates a highly professional level of English for global communication.",
-      s3: "Adaptability & Collaboration",
-      s3Desc: "Proven ability to adapt quickly, lead creative projects, and collaborate effectively within professional environments."
+      s2Desc: "Achieved a TOEIC score of 950 in 2025 (highest in school), improving from 920 in 2024. Demonstrates professional-level English for global business.",
+      s3: "Adaptability & Teamwork",
+      s3Desc: "Proven ability to adapt quickly, lead creative projects, and collaborate effectively within professional team environments."
     },
-    exp: {
-      title: "Experience & Awards",
-      photoHint: "[ Insert Photo ]"
-    },
+    exp: { title: "Experience & Awards", photoHint: "[ Insert Photo ]" },
     contact: {
       title: "Let's connect and grow together.",
       desc: "Whether it's for an entry-level position, internship, or a collaborative project, I am ready to contribute and learn. Feel free to reach out!",
@@ -56,7 +51,7 @@ const dict = {
     footer: "Ready to contribute to the digital industry."
   },
   id: {
-    nav: { work: "Proyek", about: "Tentang", experience: "Pengalaman", contact: "Kontak" },
+    nav: { work: "Proyek", about: "Tentang", exp: "Pengalaman", contact: "Kontak" },
     hero: {
       role: "Lulusan Baru | Rekayasa Perangkat Lunak",
       titleStart: "Siap berkontribusi membangun ",
@@ -65,9 +60,7 @@ const dict = {
       desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris, dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
       btn: "Lihat Profil Saya"
     },
-    projects: {
-      title: "Sorotan Proyek"
-    },
+    projects: { title: "Sorotan Proyek" },
     about: {
       title: "Tentang Saya",
       p1: "Halo! Saya Raka Anugrah Satya, lulusan baru (fresh graduate) jurusan Rekayasa Perangkat Lunak dari SMK Negeri 71 Jakarta. Selama masa studi, saya menemukan minat yang besar dalam merancang dan membangun sistem web yang fungsional dan efisien, seperti aplikasi sistem kasir (POS) dan platform perpustakaan digital.",
@@ -75,17 +68,14 @@ const dict = {
     },
     skills: {
       title: "Kompetensi Utama",
-      s1: "Pengembangan Web",
-      s1Desc: "Mampu membangun website yang responsif dan fungsional menggunakan teknologi seperti PHP, MySQL, React, dan Tailwind CSS.",
+      s1: "Pengembangan Web & Cloud",
+      s1Desc: "Mahir dalam PHP, MySQL, React, dan Tailwind. Memiliki sertifikasi Cloud Computing (AWS) dan menguasai Microsoft Office.",
       s2: "Kemampuan Bahasa Inggris",
-      s2Desc: "Meraih skor TOEIC 950 pada tahun 2025 (tertinggi di sekolah saat itu), meningkat dari skor 920 di tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional untuk komunikasi global.",
-      s3: "Adaptabilitas & Kolaborasi Tim",
+      s2Desc: "Skor TOEIC 950 pada tahun 2025 (tertinggi di sekolah saat itu), meningkat dari skor 920 di tahun 2024. Menunjukkan kemahiran bahasa Inggris profesional untuk komunikasi bisnis.",
+      s3: "Adaptabilitas & Kerja Tim",
       s3Desc: "Terbukti mampu beradaptasi dengan cepat, memimpin proyek kreatif, dan berkolaborasi secara efektif di lingkungan profesional."
     },
-    exp: {
-      title: "Pengalaman & Penghargaan",
-      photoHint: "[ Masukkan Foto ]"
-    },
+    exp: { title: "Pengalaman & Penghargaan", photoHint: "[ Masukkan Foto ]" },
     contact: {
       title: "Mari terhubung dan berkembang bersama.",
       desc: "Baik untuk posisi entry-level, magang, atau proyek kolaborasi, saya siap berkontribusi dan belajar. Jangan ragu untuk menghubungi saya!",
@@ -95,136 +85,55 @@ const dict = {
   }
 };
 
-// --- KOMPONEN ANIMASI SCROLL SECTION ---
 const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target); 
-        }
-      });
-    }, { threshold: 0.1 }); 
-
+      entries.forEach(entry => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
     const currentRef = domRef.current;
     if (currentRef) observer.observe(currentRef);
     return () => { if (currentRef) observer.unobserve(currentRef); };
   }, []);
-
-  return (
-    <div
-      ref={domRef}
-      className={`transition-all duration-1000 ease-out transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
-      style={{ transitionDelay: delay }}
-    >
-      {children}
-    </div>
-  );
+  return <div ref={domRef} className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: delay }}>{children}</div>;
 };
 
-// --- KOMPONEN UTAMA ---
 function App(): JSX.Element {
-  // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
   const [isDark, setIsDark] = useState<boolean>(false);
-  
-  // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false); 
-  
-  // Carousel States
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
   const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
 
-  // Nav Sliding Hover State
-  const navRef = useRef<HTMLUListElement>(null);
-  const [hoverStyle, setHoverStyle] = useState({ opacity: 0, left: 0, width: 0 });
-
   const t = dict[lang];
 
-  // Efek Dark Mode
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    } else {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-    }
+    if (isDark) { document.documentElement.classList.add('dark'); document.documentElement.classList.remove('light'); }
+    else { document.documentElement.classList.add('light'); document.documentElement.classList.remove('dark'); }
   }, [isDark]);
 
-  // Efek Scroll Interaktif
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      
-      setIsScrolled(scrollY > 80);
-
+      setIsScrolled(window.scrollY > 80);
       const sections = ['work', 'about', 'skills', 'experience', 'contact'];
       let current = '';
       for (const section of sections) {
         const element = document.getElementById(section);
-        if (element) {
-          if (scrollY >= element.offsetTop - 300) {
-            current = section;
-          }
-        }
+        if (element && window.scrollY >= element.offsetTop - 300) current = section;
       }
       setActiveSection(current);
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fungsi untuk Sliding Hover Navbar Desktop
-  const handleNavHover = (e: React.MouseEvent<HTMLLIElement>) => {
-    if (!navRef.current) return;
-    const targetRect = e.currentTarget.getBoundingClientRect();
-    const navRect = navRef.current.getBoundingClientRect();
-    setHoverStyle({
-      opacity: 1,
-      left: targetRect.left - navRect.left,
-      width: targetRect.width,
-    });
-  };
-
-  const handleNavLeave = () => {
-    setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
-  };
-
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
-
-  // Data Projects
   const projectsData: CarouselItem[] = [
-    {
-      id: 1,
-      title: "Libraria - E-Library Platform",
-      descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.",
-      descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.",
-      image: "" 
-    },
-    {
-      id: 2,
-      title: "Point of Sales (Sistem Kasir)",
-      descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.",
-      descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.",
-      image: "" 
-    },
-    {
-      id: 3,
-      title: "Stock Opname Dashboard",
-      descEn: "A logistics monitoring dashboard developed to assist in tracking and updating hardware/NTE stock counts accurately.",
-      descId: "Dasbor pemantauan logistik yang dikembangkan untuk membantu melacak dan memperbarui jumlah stok perangkat keras/NTE secara akurat.",
-      image: "" 
-    }
+    { id: 1, title: "Libraria - E-Library Platform", descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.", descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.", image: "" },
+    { id: 2, title: "Point of Sales (Sistem Kasir)", descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.", descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.", image: "" },
+    // --- Proyek E-Parkir Diperbarui ---
+    { id: 3, title: "E-Parking System", descEn: "A digital parking management system designed to track vehicle entry/exit, calculate dynamic parking fees, and generate reports.", descId: "Sistem manajemen parkir digital yang dirancang untuk melacak keluar/masuk kendaraan, menghitung tarif parkir dinamis, dan menghasilkan laporan.", image: "" }
   ];
 
   useEffect(() => {
@@ -234,32 +143,10 @@ function App(): JSX.Element {
     return () => clearInterval(timer);
   }, [projectsData.length]);
 
-  // Data Pengalaman
   const experiencesData: CarouselItem[] = [
-    {
-      id: 1,
-      title: "Internship (Praktik Kerja Lapangan)",
-      role: "Logistics & Admin at PT. Telkom Akses",
-      descEn: "Responsible for stock opname procedures and logistics management for hardware/NTE. Ensuring inventory data accuracy to support operational efficiency.",
-      descId: "Bertanggung jawab atas prosedur pelaksanaan stock opname dan manajemen logistik untuk perangkat keras/NTE. Memastikan akurasi data inventaris untuk mendukung efisiensi operasional.",
-      image: "" 
-    },
-    {
-      id: 2,
-      title: "TOEIC Certification (Score: 950)",
-      role: "English Proficiency Award",
-      descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
-      descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "" 
-    },
-    {
-      id: 3,
-      title: "RPL Competency Certification",
-      role: "Software Engineering Certification",
-      descEn: "Successfully passed the Software Engineering (RPL) competency certification, validating skills in web application development, database management, and programming logic.",
-      descId: "Berhasil lulus uji sertifikasi kompetensi Rekayasa Perangkat Lunak (RPL), memvalidasi keterampilan dalam pengembangan aplikasi web, manajemen basis data, dan logika pemrograman.",
-      image: "" 
-    }
+    { id: 1, title: "Internship (Praktik Kerja Lapangan)", role: "Logistics & Admin at PT. Telkom Akses", descEn: "Responsible for stock opname procedures and logistics management for hardware/NTE. Ensuring inventory data accuracy to support operational efficiency.", descId: "Bertanggung jawab atas prosedur pelaksanaan stock opname dan manajemen logistik untuk perangkat keras/NTE. Memastikan akurasi data inventaris untuk mendukung efisiensi operasional.", image: "" },
+    { id: 2, title: "TOEIC Certification (Score: 950)", role: "English Proficiency Award", descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.", descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.", image: "" },
+    { id: 3, title: "RPL Competency Certification", role: "Software Engineering Certification", descEn: "Successfully passed the Software Engineering (RPL) competency certification, validating skills in web application development, database management, and programming logic.", descId: "Berhasil lulus uji sertifikasi kompetensi Rekayasa Perangkat Lunak (RPL), memvalidasi keterampilan dalam pengembangan aplikasi web, manajemen basis data, dan logika pemrograman.", image: "" }
   ];
 
   const nextExpSlide = () => setCurrentExpSlide((prev) => (prev === experiencesData.length - 1 ? 0 : prev + 1));
@@ -274,7 +161,6 @@ function App(): JSX.Element {
     <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
   );
 
-  // Komponen icon Instagram yang sebelumnya terhapus
   const InstagramIcon = () => (
     <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
   );
@@ -284,40 +170,29 @@ function App(): JSX.Element {
       
       {/* --- DYNAMIC NAVBAR --- */}
       <nav 
-        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[800ms] ease-in-out origin-top ${
+        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[700ms] ease-out origin-top ${
           isScrolled 
-            ? 'top-4 w-[95%] md:w-auto md:min-w-[700px] bg-background/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-lg rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-white/10' 
+            ? 'top-4 w-[95%] md:w-auto md:min-w-[500px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-gray-700/50' 
             : 'top-0 w-full bg-background dark:bg-gray-900 py-5 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
         }`}
       >
-        <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto">
+        <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto gap-4">
           
           <div className="md:hidden font-headline font-bold text-lg text-primary dark:text-primary-fixed">
             RAS.
           </div>
 
-          <div className="hidden md:flex justify-center flex-1">
-            <ul 
-              ref={navRef} 
-              onMouseLeave={handleNavLeave}
-              className="flex items-center gap-2 relative py-1 px-2"
-            >
-              <div 
-                className="absolute h-[calc(100%-8px)] top-1 bg-primary/10 dark:bg-primary-fixed/20 rounded-full transition-all duration-300 ease-out pointer-events-none"
-                style={{ left: hoverStyle.left, width: hoverStyle.width, opacity: hoverStyle.opacity }}
-              />
+          <ul className="flex items-center justify-center gap-1 md:gap-4 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full md:w-auto">
+            {['work', 'about', 'experience', 'contact'].map((item) => (
+              <li key={item}>
+                <a href={`#${item}`} className={`px-2 md:px-4 py-2 block transition-colors duration-300 ${activeSection === item || (item === 'about' && activeSection === 'skills') ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav[item as keyof typeof t.nav]}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-              {['work', 'about', 'experience', 'contact'].map((item) => (
-                <li key={item} onMouseEnter={handleNavHover} className="relative z-10">
-                  <a href={`#${item}`} className={`px-4 py-2 block font-label text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === item || (item === 'about' && activeSection === 'skills') ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
-                    {t.nav[item as keyof typeof t.nav]}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 pl-2 md:pl-4 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
             <button 
               onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
               className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
@@ -326,39 +201,16 @@ function App(): JSX.Element {
             </button>
             <button 
               onClick={() => setIsDark(!isDark)}
-              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 rounded-full shadow-sm"
+              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1 md:p-1.5 rounded-full shadow-sm"
             >
-              <span className="material-symbols-outlined text-[18px] md:text-xl">
+              <span className="material-symbols-outlined text-[16px] md:text-xl">
                 {isDark ? 'light_mode' : 'dark_mode'}
               </span>
-            </button>
-            
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden flex flex-col justify-center items-center w-8 h-8 rounded-full bg-primary/10 text-primary dark:text-primary-fixed"
-            >
-              <span className="material-symbols-outlined text-xl">{isMobileMenuOpen ? 'close' : 'menu'}</span>
             </button>
           </div>
 
         </div>
       </nav>
-
-      {/* --- MOBILE DROPDOWN MENU --- */}
-      <div className={`md:hidden fixed inset-0 z-40 bg-background/95 dark:bg-gray-900/95 backdrop-blur-md transition-transform duration-500 ease-in-out ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex flex-col items-center justify-center h-full gap-8">
-           {['work', 'about', 'experience', 'contact'].map((item) => (
-             <a 
-                key={item} 
-                href={`#${item}`} 
-                onClick={closeMobileMenu}
-                className="font-headline text-2xl uppercase tracking-widest text-on-background dark:text-white hover:text-primary dark:hover:text-primary-fixed transition-colors"
-              >
-                {t.nav[item as keyof typeof t.nav]}
-              </a>
-           ))}
-        </div>
-      </div>
 
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
