@@ -137,6 +137,7 @@ function App(): JSX.Element {
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false); 
   
   // Carousel States
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
@@ -199,35 +200,44 @@ function App(): JSX.Element {
     setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
   };
 
-  // Data Projects
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  // Data Projects (Diperbarui dengan gambar dan tambahan proyek Fiver)
   const projectsData: CarouselItem[] = [
     {
       id: 1,
       title: "Libraria - E-Library Platform",
       descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.",
       descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.",
-      image: "" 
+      image: "/images/projeklibraria.jpg" 
     },
     {
       id: 2,
       title: "Point of Sales (Sistem Kasir)",
       descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.",
       descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.",
-      image: "" 
+      image: "/images/projekkasir.jpg" 
     },
     {
       id: 3,
       title: "E-Parking System",
       descEn: "A digital parking management system designed to track vehicle entry/exit, calculate dynamic parking fees, and generate reports.",
       descId: "Sistem manajemen parkir digital yang dirancang untuk melacak keluar/masuk kendaraan, menghitung tarif parkir dinamis, dan menghasilkan laporan.",
-      image: "" 
+      image: "/images/projekparkir.jpg" 
+    },
+    {
+      id: 4,
+      title: "Five'r - Multimedia Campaign",
+      descEn: "A creative digital promotional campaign for traditional Indonesian snacks (Es Poteng & Klepon Kecerit), utilizing beautiful Ghibli-inspired visual styles and animations.",
+      descId: "Kampanye promosi digital kreatif untuk jajanan tradisional Indonesia (Es Poteng & Klepon Kecerit), memanfaatkan gaya visual estetik dan animasi yang terinspirasi dari Studio Ghibli.",
+      image: "/images/projekfiver.jpg" 
     }
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-    }, 4000); 
+    }, 4500); // Saya naikkan sedikit menjadi 4.5 detik agar tulisan proyek sempat terbaca
     return () => clearInterval(timer);
   }, [projectsData.length]);
 
@@ -278,47 +288,34 @@ function App(): JSX.Element {
   return (
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
-      {/* --- DYNAMIC NAVBAR (FULLY VISIBLE & SCROLLABLE) --- */}
+      {/* --- DYNAMIC NAVBAR --- */}
       <nav 
-        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[800ms] ease-in-out origin-top ${
+        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[700ms] ease-out origin-top ${
           isScrolled 
-            ? 'top-4 w-[95%] md:w-auto md:min-w-[700px] bg-background/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-lg rounded-full py-2.5 md:py-3 px-3 md:px-6 border border-outline-variant/30 dark:border-white/10' 
-            : 'top-0 w-full bg-background dark:bg-gray-900 py-4 md:py-5 px-3 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
+            ? 'top-4 w-[95%] md:w-auto md:min-w-[500px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-gray-700/50' 
+            : 'top-0 w-full bg-background dark:bg-gray-900 py-5 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
         }`}
       >
-        <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto gap-1 md:gap-4">
+        <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto gap-4">
           
-          <div className="md:hidden font-headline font-bold text-sm text-primary dark:text-primary-fixed shrink-0">
+          <div className="md:hidden font-headline font-bold text-lg text-primary dark:text-primary-fixed">
             RAS.
           </div>
 
-          {/* Tengah: Menu Navigasi (Flex di Semua Layar, Bisa di Scroll Horisontal di HP Kecil) */}
-          <div className="flex-1 flex justify-end md:justify-center overflow-x-auto scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            <ul 
-              ref={navRef} 
-              onMouseLeave={handleNavLeave}
-              className="flex items-center gap-0.5 md:gap-2 relative py-1 px-1"
-            >
-              <div 
-                className="absolute h-[calc(100%-8px)] top-1 bg-primary/10 dark:bg-primary-fixed/20 rounded-full transition-all duration-300 ease-out pointer-events-none"
-                style={{ left: hoverStyle.left, width: hoverStyle.width, opacity: hoverStyle.opacity }}
-              />
+          <ul className="flex items-center justify-center gap-1 md:gap-4 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full md:w-auto">
+            {['work', 'about', 'experience', 'contact'].map((item) => (
+              <li key={item}>
+                <a href={`#${item}`} className={`px-2 md:px-4 py-2 block transition-colors duration-300 ${activeSection === item || (item === 'about' && activeSection === 'skills') ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                  {t.nav[item as keyof typeof t.nav]}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-              {['work', 'about', 'experience', 'contact'].map((item) => (
-                <li key={item} onMouseEnter={handleNavHover} className="relative z-10 shrink-0">
-                  <a href={`#${item}`} className={`px-2.5 md:px-4 py-2 block font-label text-[10px] md:text-sm uppercase tracking-widest font-bold transition-colors duration-300 ${activeSection === item || (item === 'about' && activeSection === 'skills') ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
-                    {t.nav[item as keyof typeof t.nav]}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Kanan: Language & Dark Mode */}
-          <div className="flex items-center gap-1.5 md:gap-3 pl-1.5 md:pl-0 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
+          <div className="flex items-center gap-2 pl-2 md:pl-4 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
             <button 
               onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-              className="font-label font-bold text-[10px] md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors px-1"
+              className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
             >
               {lang === 'en' ? 'ID' : 'EN'}
             </button>
