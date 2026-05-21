@@ -18,7 +18,327 @@ interface FadeInSectionProps {
 // --- KAMUS BAHASA (BILINGUAL) ---
 const dict = {
   en: {
-    nav: { work: "Projects", about: "About", exp: "Experience", contact: "Contact" },
+import { useState, useEffect, useRef, ReactNode } from 'react';
+
+// --- TIPE DATA ---
+interface CarouselItem {
+  id: number;
+  title: string;
+  role?: string;
+  descEn: string;
+  descId: string;
+  image: string;
+}
+
+interface FadeInSectionProps {
+  children: ReactNode;
+  delay?: string;
+}
+
+// --- KAMUS BAHASA ---
+const dict = {
+  en: {
+    nav: { work: "Projects", about: "About", experience: "Experience", contact: "Contact" },
+    hero: {
+      role: "Fresh Graduate | Software Engineering",
+      titleStart: "Ready to build ",
+      titleItalic: "impactful",
+      titleEnd: " digital solutions.",
+      desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
+      btn: "See My Profile"
+    },
+    projects: { title: "Featured Projects" },
+    about: {
+      title: "About Me",
+      p1: "Hello! I'm Raka Anugrah Satya, a Software Engineering fresh graduate from SMK Negeri 71 Jakarta. During my studies, I developed a strong passion for designing and building web systems that are both functional and efficient, such as Point of Sales (POS) applications and digital library platforms.",
+      p2: "I possess professional-level English communication skills, validated by a TOEIC score of 950—the highest in my school in 2025. Beyond my technical skills, I am highly adaptable and experienced in working within teams, a skill honed through various collaborative projects. I am now eager to bring my enthusiasm, technical foundation, and teamwork skills to start my professional career in the tech industry.",
+    },
+    skills: {
+      title: "Core Competencies",
+      s1: "Web Development & Cloud",
+      s1Desc: "Skilled in PHP, MySQL, React, and Tailwind. Certified in Cloud Computing (AWS) and proficient in Microsoft Office suite.",
+      s2: "English Proficiency",
+      s2Desc: "Achieved a TOEIC score of 950 in 2025 (highest in school), improving from 920 in 2024. Demonstrates professional-level English for global business.",
+      s3: "Adaptability & Teamwork",
+      s3Desc: "Proven ability to adapt quickly, lead creative projects, and collaborate effectively within professional team environments."
+    },
+    exp: { title: "Experience & Awards", photoHint: "[ Insert Photo ]" },
+    contact: {
+      title: "Let's connect and grow together.",
+      desc: "Whether it's for an entry-level position, internship, or a collaborative project, I am ready to contribute and learn. Feel free to reach out!",
+      btn: "Get in touch"
+    },
+    footer: "Ready to contribute to the digital industry."
+  },
+  id: {
+    nav: { work: "Proyek", about: "Tentang", experience: "Pengalaman", contact: "Kontak" },
+    hero: {
+      role: "Lulusan Baru | Rekayasa Perangkat Lunak",
+      titleStart: "Siap berkontribusi membangun ",
+      titleItalic: "solusi",
+      titleEnd: " digital.",
+      desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris, dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
+      btn: "Lihat Profil Saya"
+    },
+    projects: { title: "Sorotan Proyek" },
+    about: {
+      title: "Tentang Saya",
+      p1: "Halo! Saya Raka Anugrah Satya, lulusan baru (fresh graduate) jurusan Rekayasa Perangkat Lunak dari SMK Negeri 71 Jakarta. Selama masa studi, saya menemukan minat yang besar dalam merancang dan membangun sistem web yang fungsional dan efisien, seperti aplikasi sistem kasir (POS) dan platform perpustakaan digital.",
+      p2: "Saya memiliki kemampuan komunikasi bahasa Inggris yang profesional, dibuktikan dengan skor TOEIC 950 (tertinggi di sekolah pada tahun 2025). Selain keahlian teknis, saya adalah pribadi yang adaptif dan terbiasa bekerja dalam tim, yang terasah melalui berbagai proyek kreatif dan kolaborasi selama masa studi. Saat ini, saya sangat antusias mencari peluang untuk memulai karier dan memberikan kontribusi nyata di industri teknologi.",
+    },
+    skills: {
+      title: "Kompetensi Utama",
+      s1: "Pengembangan Web & Cloud",
+      s1Desc: "Mahir dalam PHP, MySQL, React, dan Tailwind. Memiliki sertifikasi Cloud Computing (AWS) dan menguasai Microsoft Office.",
+      s2: "Kemampuan Bahasa Inggris",
+      s2Desc: "Skor TOEIC 950 pada tahun 2025 (tertinggi di sekolah saat itu), meningkat dari skor 920 di tahun 2024. Menunjukkan kemahiran bahasa Inggris profesional untuk komunikasi bisnis.",
+      s3: "Adaptabilitas & Kerja Tim",
+      s3Desc: "Terbukti mampu beradaptasi dengan cepat, memimpin proyek kreatif, dan berkolaborasi secara efektif di lingkungan profesional."
+    },
+    exp: { title: "Pengalaman & Penghargaan", photoHint: "[ Masukkan Foto ]" },
+    contact: {
+      title: "Mari terhubung dan berkembang bersama.",
+      desc: "Baik untuk posisi entry-level, magang, atau proyek kolaborasi, saya siap berkontribusi dan belajar. Jangan ragu untuk menghubungi saya!",
+      btn: "Hubungi Saya"
+    },
+    footer: "Siap berkontribusi untuk industri digital."
+  }
+};
+
+const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
+  const [isVisible, setVisible] = useState(false);
+  const domRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    const currentRef = domRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => { if (currentRef) observer.unobserve(currentRef); };
+  }, []);
+  return (
+    <div
+      ref={domRef}
+      className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+      style={{ transitionDelay: delay }}
+    >
+      {children}
+    </div>
+  );
+};
+
+function App(): JSX.Element {
+  const [lang, setLang] = useState<'en' | 'id'>('en');
+  const [isDark, setIsDark] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<string>('');
+  const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
+  const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
+
+  const t = dict[lang];
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 80);
+      const sections = ['work', 'about', 'skills', 'experience', 'contact'];
+      let current = '';
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element && window.scrollY >= element.offsetTop - 300) current = section;
+      }
+      setActiveSection(current);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const projectsData: CarouselItem[] = [
+    { id: 1, title: "Libraria - E-Library", descEn: "A digital library management system.", descId: "Sistem manajemen perpustakaan digital.", image: "" },
+    { id: 2, title: "Point of Sales (POS)", descEn: "A functional POS system for daily transactions.", descId: "Sistem kasir untuk transaksi harian.", image: "" },
+    { id: 3, title: "Stock Opname Dashboard", descEn: "A logistics monitoring dashboard.", descId: "Dasbor pemantauan logistik.", image: "" }
+  ];
+
+  const experiencesData: CarouselItem[] = [
+    { id: 1, title: "Internship", role: "Logistics & Admin", descEn: "Logistics management for PT. Telkom Akses.", descId: "Manajemen logistik untuk PT. Telkom Akses.", image: "" },
+    { id: 2, title: "TOEIC Certification", role: "Score: 950 (2025)", descEn: "Improved from 920 in 2024 to 950 in 2025 (School's Highest).", descId: "Meningkat dari 920 di 2024 ke 950 di 2025 (Tertinggi di Sekolah).", image: "" },
+    { id: 3, title: "RPL Competency Certification", role: "Software Engineering", descEn: "Software Engineering certification.", descId: "Sertifikasi Kompetensi RPL.", image: "" }
+  ];
+
+  // Nav items: key matches both t.nav key and section id
+  // 'experience' matches id="experience" on the section AND t.nav.experience
+  const navItems = ['work', 'about', 'experience', 'contact'] as const;
+
+  return (
+    <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-500">
+
+      {/* --- NAVBAR --- */}
+      <nav className={`fixed z-50 left-0 right-0 transition-all duration-700 ease-out ${isScrolled ? 'top-4 w-[95%] md:w-[700px] mx-auto bg-background/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full py-3 px-4 shadow-xl border border-white/10' : 'top-0 w-full bg-background dark:bg-gray-900 py-6 px-6'}`}>
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <ul className="flex items-center gap-4 md:gap-8 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold">
+            {navItems.map(item => (
+              <li key={item}>
+                <a
+                  href={`#${item}`}
+                  className={`transition-colors ${activeSection === item ? 'text-primary' : 'text-on-surface-variant'}`}
+                >
+                  {t.nav[item]}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="flex gap-3 items-center">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
+              className="text-xs font-bold"
+            >
+              {lang.toUpperCase()}
+            </button>
+            <button onClick={() => setIsDark(!isDark)}>
+              <span className="material-symbols-outlined">
+                {isDark ? 'light_mode' : 'dark_mode'}
+              </span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* --- MAIN CONTENT --- */}
+      <main className="pt-24">
+
+        {/* HERO SECTION */}
+        <section className="min-h-screen flex flex-col justify-center px-6 max-w-7xl mx-auto">
+          <FadeInSection>
+            <p className="text-sm uppercase tracking-widest text-on-surface-variant mb-4">{t.hero.role}</p>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+              {t.hero.titleStart}
+              <em className="italic text-primary">{t.hero.titleItalic}</em>
+              {t.hero.titleEnd}
+            </h1>
+            <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mb-8">{t.hero.desc}</p>
+            <a
+              href="#about"
+              className="inline-block px-6 py-3 bg-primary text-white rounded-full font-semibold hover:opacity-90 transition-opacity"
+            >
+              {t.hero.btn}
+            </a>
+          </FadeInSection>
+        </section>
+
+        {/* PROJECTS SECTION */}
+        <section id="work" className="py-24 px-6 max-w-7xl mx-auto">
+          <FadeInSection>
+            <h2 className="text-3xl font-bold mb-12">{t.projects.title}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {projectsData.map((proj, i) => (
+                <FadeInSection key={proj.id} delay={`${i * 100}ms`}>
+                  <div className="rounded-2xl border border-white/10 dark:border-gray-700 p-6 bg-surface dark:bg-gray-800 hover:shadow-xl transition-shadow">
+                    <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-xl mb-4 flex items-center justify-center text-gray-400 text-sm">
+                      {proj.image ? <img src={proj.image} alt={proj.title} className="w-full h-full object-cover rounded-xl" /> : '[ Image ]'}
+                    </div>
+                    <h3 className="font-bold text-lg mb-1">{proj.title}</h3>
+                    <p className="text-sm text-on-surface-variant">{lang === 'en' ? proj.descEn : proj.descId}</p>
+                  </div>
+                </FadeInSection>
+              ))}
+            </div>
+          </FadeInSection>
+        </section>
+
+        {/* ABOUT SECTION */}
+        <section id="about" className="py-24 px-6 max-w-7xl mx-auto">
+          <FadeInSection>
+            <h2 className="text-3xl font-bold mb-8">{t.about.title}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <p className="text-on-surface-variant leading-relaxed">{t.about.p1}</p>
+              <p className="text-on-surface-variant leading-relaxed">{t.about.p2}</p>
+            </div>
+          </FadeInSection>
+        </section>
+
+        {/* SKILLS SECTION */}
+        <section id="skills" className="py-24 px-6 max-w-7xl mx-auto">
+          <FadeInSection>
+            <h2 className="text-3xl font-bold mb-12">{t.skills.title}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { title: t.skills.s1, desc: t.skills.s1Desc },
+                { title: t.skills.s2, desc: t.skills.s2Desc },
+                { title: t.skills.s3, desc: t.skills.s3Desc },
+              ].map((skill, i) => (
+                <FadeInSection key={i} delay={`${i * 100}ms`}>
+                  <div className="rounded-2xl border border-white/10 dark:border-gray-700 p-6 bg-surface dark:bg-gray-800">
+                    <h3 className="font-bold text-lg mb-3 text-primary">{skill.title}</h3>
+                    <p className="text-sm text-on-surface-variant leading-relaxed">{skill.desc}</p>
+                  </div>
+                </FadeInSection>
+              ))}
+            </div>
+          </FadeInSection>
+        </section>
+
+        {/* EXPERIENCE SECTION — id="experience" matches nav href="#experience" */}
+        <section id="experience" className="py-24 px-6 max-w-7xl mx-auto">
+          <FadeInSection>
+            <h2 className="text-3xl font-bold mb-12">{t.exp.title}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {experiencesData.map((exp, i) => (
+                <FadeInSection key={exp.id} delay={`${i * 100}ms`}>
+                  <div className="rounded-2xl border border-white/10 dark:border-gray-700 p-6 bg-surface dark:bg-gray-800 hover:shadow-xl transition-shadow">
+                    <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-xl mb-4 flex items-center justify-center text-gray-400 text-sm">
+                      {exp.image ? <img src={exp.image} alt={exp.title} className="w-full h-full object-cover rounded-xl" /> : t.exp.photoHint}
+                    </div>
+                    <h3 className="font-bold text-lg mb-1">{exp.title}</h3>
+                    {exp.role && <p className="text-xs text-primary font-semibold mb-2">{exp.role}</p>}
+                    <p className="text-sm text-on-surface-variant">{lang === 'en' ? exp.descEn : exp.descId}</p>
+                  </div>
+                </FadeInSection>
+              ))}
+            </div>
+          </FadeInSection>
+        </section>
+
+        {/* CONTACT SECTION */}
+        <section id="contact" className="py-24 px-6 max-w-7xl mx-auto text-center">
+          <FadeInSection>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">{t.contact.title}</h2>
+            <p className="text-on-surface-variant max-w-xl mx-auto mb-10">{t.contact.desc}</p>
+            <a
+              href="mailto:raka@email.com"
+              className="inline-block px-8 py-4 bg-primary text-white rounded-full font-semibold text-lg hover:opacity-90 transition-opacity"
+            >
+              {t.contact.btn}
+            </a>
+          </FadeInSection>
+        </section>
+
+      </main>
+
+      {/* FOOTER */}
+      <footer className="py-8 px-6 text-center text-sm text-on-surface-variant border-t border-white/10 dark:border-gray-700">
+        <p>{t.footer}</p>
+        <p className="mt-1">© {new Date().getFullYear()} Raka Anugrah Satya</p>
+      </footer>
+
+    </div>
+  );
+}
+
+export default App;
     hero: {
       role: "Fresh Graduate | Software Engineering",
       titleStart: "Ready to build ",
@@ -56,7 +376,7 @@ const dict = {
     footer: "Ready to contribute to the digital industry."
   },
   id: {
-    nav: { work: "Proyek", about: "Tentang", exp: "Pengalaman", contact: "Kontak" },
+nav: { work: "Proyek", about: "Tentang", experience: "Pengalaman", contact: "Kontak" },
     hero: {
       role: "Lulusan Baru | Rekayasa Perangkat Lunak",
       titleStart: "Siap berkontribusi membangun ",
