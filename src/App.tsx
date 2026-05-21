@@ -137,6 +137,7 @@ function App(): JSX.Element {
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   
   // Carousel States
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
@@ -179,7 +180,16 @@ function App(): JSX.Element {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Data Projects (Diperbarui dengan gambar dan tambahan proyek Fiver)
+  // Kunci scroll saat mobile menu terbuka
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMobileMenuOpen]);
+
+  // Data Projects 
   const projectsData: CarouselItem[] = [
     {
       id: 1,
@@ -214,7 +224,7 @@ function App(): JSX.Element {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-    }, 4500); // Saya naikkan sedikit menjadi 4.5 detik agar tulisan proyek sempat terbaca
+    }, 4500); 
     return () => clearInterval(timer);
   }, [projectsData.length]);
 
@@ -269,38 +279,55 @@ function App(): JSX.Element {
       <nav 
         className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[700ms] ease-out origin-top ${
           isScrolled 
-            ? 'top-4 w-[95%] md:w-auto md:min-w-[500px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-gray-700/50' 
-            : 'top-0 w-full bg-background dark:bg-gray-900 py-5 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
+            ? 'top-4 w-[95%] sm:w-[90%] md:w-auto md:min-w-[500px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-gray-700/50' 
+            : 'top-0 w-full bg-background dark:bg-gray-900 py-4 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
         }`}
       >
         <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto gap-4">
           
-          <div className="md:hidden font-headline font-bold text-lg text-primary dark:text-primary-fixed">
-            RAS.
-          </div>
+          {/* Mobile Hamburger Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-on-surface-variant dark:text-gray-300 hover:text-primary transition-colors p-1"
+            aria-label="Toggle Menu"
+          >
+            <span className="material-symbols-outlined text-2xl">
+              {isMobileMenuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
 
-          <ul className="flex items-center justify-center gap-1 md:gap-4 font-label text-[10px] md:text-sm uppercase tracking-widest font-bold w-full md:w-auto">
+          {/* Desktop Links (Hidden on Mobile) */}
+          <ul className="hidden md:flex items-center justify-center gap-4 font-label text-sm uppercase tracking-widest font-bold">
             {['work', 'about', 'experience', 'contact'].map((item) => (
               <li key={item}>
-                <a href={`#${item}`} className={`px-2 md:px-4 py-2 block transition-colors duration-300 ${activeSection === item || (item === 'about' && activeSection === 'skills') ? 'text-primary dark:text-primary-fixed' : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'}`}>
+                <a 
+                  href={`#${item}`} 
+                  className={`px-4 py-2 block transition-colors duration-300 ${
+                    activeSection === item || (item === 'about' && activeSection === 'skills') 
+                      ? 'text-primary dark:text-primary-fixed' 
+                      : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'
+                  }`}
+                >
                   {t.nav[item as keyof typeof t.nav]}
                 </a>
               </li>
             ))}
           </ul>
 
-          <div className="flex items-center gap-2 pl-2 md:pl-4 border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
+          {/* Toggles Lang & Dark Mode */}
+          <div className="flex items-center gap-2 md:pl-4 md:border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
             <button 
               onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-              className="font-label font-bold text-xs md:text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors"
+              className="font-label font-bold text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors px-2"
             >
               {lang === 'en' ? 'ID' : 'EN'}
             </button>
             <button 
               onClick={() => setIsDark(!isDark)}
-              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1 md:p-1.5 rounded-full shadow-sm"
+              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm"
+              aria-label="Toggle Dark Mode"
             >
-              <span className="material-symbols-outlined text-[16px] md:text-xl">
+              <span className="material-symbols-outlined text-lg md:text-xl">
                 {isDark ? 'light_mode' : 'dark_mode'}
               </span>
             </button>
@@ -308,6 +335,33 @@ function App(): JSX.Element {
 
         </div>
       </nav>
+
+      {/* --- MOBILE FULLSCREEN MENU --- */}
+      <div 
+        className={`fixed inset-0 z-40 bg-background/95 dark:bg-gray-900/95 backdrop-blur-lg flex flex-col items-center justify-center transition-all duration-500 ease-in-out md:hidden ${
+          isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <ul className="flex flex-col items-center gap-8 font-headline text-2xl uppercase tracking-widest font-bold">
+          {['work', 'about', 'experience', 'contact'].map((item) => (
+            <li key={item} className="overflow-hidden">
+              <a 
+                href={`#${item}`} 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block transform transition-transform duration-500 ${
+                  isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
+                } ${
+                  activeSection === item || (item === 'about' && activeSection === 'skills') 
+                    ? 'text-primary dark:text-primary-fixed' 
+                    : 'text-on-background dark:text-gray-200'
+                }`}
+              >
+                {t.nav[item as keyof typeof t.nav]}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
