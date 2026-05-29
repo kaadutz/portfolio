@@ -250,7 +250,7 @@ function App(): JSX.Element {
       role: "English Proficiency Award",
       descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
       descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "/images/toeci.jpeg" 
+      image: "/images/toeic.jpeg" 
     },
     {
       id: 3,
