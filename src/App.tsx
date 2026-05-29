@@ -143,10 +143,6 @@ function App(): JSX.Element {
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
   const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
 
-  // Nav Sliding Hover State
-  const navRef = useRef<HTMLUListElement>(null);
-  const [hoverStyle, setHoverStyle] = useState({ opacity: 0, left: 0, width: 0 });
-
   const t = dict[lang];
 
   // Efek Dark Mode
@@ -192,22 +188,6 @@ function App(): JSX.Element {
       document.body.style.overflow = 'unset';
     }
   }, [isMobileMenuOpen]);
-
-  // Fungsi untuk Sliding Hover Navbar Desktop
-  const handleNavHover = (e: React.MouseEvent<HTMLLIElement>) => {
-    if (!navRef.current) return;
-    const targetRect = e.currentTarget.getBoundingClientRect();
-    const navRect = navRef.current.getBoundingClientRect();
-    setHoverStyle({
-      opacity: 1,
-      left: targetRect.left - navRect.left,
-      width: targetRect.width,
-    });
-  };
-
-  const handleNavLeave = () => {
-    setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
-  };
 
   // Tutup mobile menu ketika link di klik
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -379,7 +359,7 @@ function App(): JSX.Element {
                 } ${
                   activeSection === item || (item === 'about' && activeSection === 'skills') 
                     ? 'text-primary dark:text-primary-fixed' 
-                    : 'text-on-background dark:text-gray-200'
+                    : 'text-on-background dark:text-gray-200 hover:text-primary'
                 }`}
               >
                 {t.nav[item as keyof typeof t.nav]}
