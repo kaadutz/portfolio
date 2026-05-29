@@ -143,6 +143,10 @@ function App(): JSX.Element {
   const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
   const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
 
+  // Nav Sliding Hover State
+  const navRef = useRef<HTMLUListElement>(null);
+  const [hoverStyle, setHoverStyle] = useState({ opacity: 0, left: 0, width: 0 });
+
   const t = dict[lang];
 
   // Efek Dark Mode
@@ -189,6 +193,25 @@ function App(): JSX.Element {
     }
   }, [isMobileMenuOpen]);
 
+  // Fungsi untuk Sliding Hover Navbar Desktop
+  const handleNavHover = (e: React.MouseEvent<HTMLLIElement>) => {
+    if (!navRef.current) return;
+    const targetRect = e.currentTarget.getBoundingClientRect();
+    const navRect = navRef.current.getBoundingClientRect();
+    setHoverStyle({
+      opacity: 1,
+      left: targetRect.left - navRect.left,
+      width: targetRect.width,
+    });
+  };
+
+  const handleNavLeave = () => {
+    setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  // Tutup mobile menu ketika link di klik
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   // Data Projects 
   const projectsData: CarouselItem[] = [
     {
@@ -228,6 +251,9 @@ function App(): JSX.Element {
     return () => clearInterval(timer);
   }, [projectsData.length]);
 
+  const nextProjSlide = () => setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
+  const prevProjSlide = () => setCurrentProjSlide((prev) => (prev === 0 ? projectsData.length - 1 : prev - 1));
+
   // Data Pengalaman
   const experiencesData: CarouselItem[] = [
     {
@@ -236,7 +262,7 @@ function App(): JSX.Element {
       role: "Logistics & Admin at PT. Telkom Akses",
       descEn: "Responsible for stock opname procedures and logistics management for hardware/NTE. Ensuring inventory data accuracy to support operational efficiency.",
       descId: "Bertanggung jawab atas prosedur pelaksanaan stock opname dan manajemen logistik untuk perangkat keras/NTE. Memastikan akurasi data inventaris untuk mendukung efisiensi operasional.",
-      image: "" 
+      image: "/images/pkl1.jpeg" 
     },
     {
       id: 2,
@@ -244,7 +270,7 @@ function App(): JSX.Element {
       role: "English Proficiency Award",
       descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
       descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "" 
+      image: "/images/toeci.jpeg" 
     },
     {
       id: 3,
@@ -252,7 +278,7 @@ function App(): JSX.Element {
       role: "Software Engineering Certification",
       descEn: "Successfully passed the Software Engineering (RPL) competency certification, validating skills in web application development, database management, and programming logic.",
       descId: "Berhasil lulus uji sertifikasi kompetensi Rekayasa Perangkat Lunak (RPL), memvalidasi keterampilan dalam pengembangan aplikasi web, manajemen basis data, dan logika pemrograman.",
-      image: "" 
+      image: "/images/usk.jpeg" 
     }
   ];
 
@@ -347,7 +373,7 @@ function App(): JSX.Element {
             <li key={item} className="overflow-hidden">
               <a 
                 href={`#${item}`} 
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className={`block transform transition-transform duration-500 ${
                   isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
                 } ${
@@ -437,6 +463,20 @@ function App(): JSX.Element {
                     </div>
                   </div>
                 ))}
+
+                {/* Arrow Navigation for Projects */}
+                <button 
+                  onClick={prevProjSlide} 
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                >
+                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
+                </button>
+                <button 
+                  onClick={nextProjSlide} 
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                >
+                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
+                </button>
 
                 <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
                   {projectsData.map((_, index) => (
@@ -556,14 +596,15 @@ function App(): JSX.Element {
                     </div>
                   ))}
 
-                  <button
-                    onClick={prevExpSlide}
+                  {/* Arrow Navigation for Experience */}
+                  <button 
+                    onClick={prevExpSlide} 
                     className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
                   >
                     <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
                   </button>
-                  <button
-                    onClick={nextExpSlide}
+                  <button 
+                    onClick={nextExpSlide} 
                     className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
                   >
                     <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
