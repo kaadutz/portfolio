@@ -250,7 +250,7 @@ function App(): JSX.Element {
       role: "English Proficiency Award",
       descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
       descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "/images/toeic.jpeg" 
+      image: "/images/toeci.jpeg" 
     },
     {
       id: 3,
@@ -631,15 +631,15 @@ function App(): JSX.Element {
               <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg w-full sm:w-auto" href="mailto:raka.anugrah@example.com">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg w-full sm:w-auto" href="mailto:rakacembol@gmail.com">
                   <span className="material-symbols-outlined mr-3">mail</span>
                   {t.contact.btn}
                 </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer">
                   <LinkedInIcon />
                   <span className="ml-3">LinkedIn</span>
                 </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/yourusername" target="_blank" rel="noreferrer">
+                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/kaadutz" target="_blank" rel="noreferrer">
                   <GithubIcon />
                   <span className="ml-3">GitHub</span>
                 </a>
@@ -660,22 +660,22 @@ function App(): JSX.Element {
           </div>
           <ul className="flex items-center gap-6 font-label text-sm tracking-wide">
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <LinkedInIcon />
               </a>
             </li>
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://instagram.com/yourprofile" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://www.instagram.com/rakaa_204/" target="_blank" rel="noreferrer" aria-label="Instagram">
                 <InstagramIcon />
               </a>
             </li>
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://github.com/yourusername" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://github.com/kaadutz" target="_blank" rel="noreferrer" aria-label="GitHub">
                 <GithubIcon />
               </a>
             </li>
             <li>
-              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:raka.anugrah@example.com" aria-label="Email">
+              <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:rakacembol@gmail.com" aria-label="Email">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
