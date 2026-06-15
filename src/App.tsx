@@ -98,7 +98,7 @@ const dict = {
 // --- CUSTOM COMPONENTS (ANIMASI & EFEK) ---
 
 const CursorSpotlight = () => {
-  const [pos, setPos] = useState({ x: -1000, y: -1000 }); // Mulai di luar layar
+  const [pos, setPos] = useState({ x: -1000, y: -1000 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
@@ -183,61 +183,6 @@ const Typewriter = ({ words }: { words: string[] }) => {
       {words[index]?.substring(0, subIndex)}
       <span className="animate-pulse">|</span>
     </span>
-  );
-};
-
-const TiltCard = ({ children, className = "" }: { children: ReactNode, className?: string }) => {
-  const [style, setStyle] = useState({});
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - left) / width - 0.5;
-    const y = (e.clientY - top) / height - 0.5;
-    
-    setStyle({
-      transform: `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg)`,
-      transition: 'transform 0.1s ease-out'
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setStyle({ transform: 'perspective(1000px) rotateY(0) rotateX(0)', transition: 'transform 0.5s ease-out' });
-  };
-
-  return (
-    <div 
-      className={`will-change-transform ${className}`} 
-      onMouseMove={handleMouseMove} 
-      onMouseLeave={handleMouseLeave} 
-      style={style}
-    >
-      {children}
-    </div>
-  );
-};
-
-const MagneticButton = ({ children, href, className = "" }: { children: ReactNode, href: string, className?: string }) => {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - (left + width / 2)) * 0.3; 
-    const y = (e.clientY - (top + height / 2)) * 0.3;
-    setPos({ x, y });
-  };
-
-  const handleMouseLeave = () => setPos({ x: 0, y: 0 });
-
-  return (
-    <a
-      href={href}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className={`inline-block transition-transform duration-100 ease-out ${className}`}
-      style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}
-    >
-      {children}
-    </a>
   );
 };
 
@@ -554,13 +499,10 @@ function App(): JSX.Element {
                 {t.hero.desc}
               </p>
               <div className="pt-12">
-                {/* EFEK MAGNETIC BUTTON */}
-                <MagneticButton href="#about" className="group relative z-20">
-                  <span className="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary dark:text-white rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg">
-                    {t.hero.btn}
-                    <span className="material-symbols-outlined ml-2 transform group-hover:translate-y-1 transition-transform">arrow_downward</span>
-                  </span>
-                </MagneticButton>
+                <a href="#about" className="group relative z-20 inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary dark:text-white rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg hover:-translate-y-1">
+                  {t.hero.btn}
+                  <span className="material-symbols-outlined ml-2 transform group-hover:translate-y-1 transition-transform">arrow_downward</span>
+                </a>
               </div>
             </div>
           </div>
@@ -577,62 +519,60 @@ function App(): JSX.Element {
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <TiltCard>
-                <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
-                  {projectsData.map((proj, index) => (
-                    <div
-                      key={proj.id}
-                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                        index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                      }`}
-                    >
-                      {proj.image ? (
-                        <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
-                          <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
-                          <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
-                        </div>
-                      )}
-                      
-                      <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
-                        <div className="max-w-2xl mt-12 md:mt-0">
-                          <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
-                          <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
-                            {lang === 'en' ? proj.descEn : proj.descId}
-                          </p>
-                        </div>
+              <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
+                {projectsData.map((proj, index) => (
+                  <div
+                    key={proj.id}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                    }`}
+                  >
+                    {proj.image ? (
+                      <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
+                        <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
+                        <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
+                      </div>
+                    )}
+                    
+                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
+                      <div className="max-w-2xl mt-12 md:mt-0">
+                        <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
+                        <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
+                          {lang === 'en' ? proj.descEn : proj.descId}
+                        </p>
                       </div>
                     </div>
-                  ))}
-
-                  {/* Arrow Navigation for Projects */}
-                  <button 
-                    onClick={prevProjSlide} 
-                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                  >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
-                  </button>
-                  <button 
-                    onClick={nextProjSlide} 
-                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                  >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
-                  </button>
-
-                  <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
-                    {projectsData.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentProjSlide(index)}
-                        className={`h-1.5 rounded-full transition-all duration-500 ${
-                          index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
-                        }`}
-                      />
-                    ))}
                   </div>
+                ))}
+
+                {/* Arrow Navigation for Projects */}
+                <button 
+                  onClick={prevProjSlide} 
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                >
+                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
+                </button>
+                <button 
+                  onClick={nextProjSlide} 
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                >
+                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
+                </button>
+
+                <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
+                  {projectsData.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentProjSlide(index)}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
+                      }`}
+                    />
+                  ))}
                 </div>
-              </TiltCard>
+              </div>
             </FadeInSection>
           </div>
         </section>
@@ -656,17 +596,15 @@ function App(): JSX.Element {
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <TiltCard>
-                  <div className="flex items-center justify-center lg:justify-end">
-                    <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
-                      <img 
-                        alt="Raka Anugrah Satya Profile" 
-                        className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
-                        src="/images/fotogw.jpeg" 
-                      />
-                    </div>
+                <div className="flex items-center justify-center lg:justify-end">
+                  <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
+                    <img 
+                      alt="Raka Anugrah Satya Profile" 
+                      className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
+                      src="/images/fotogw.jpeg" 
+                    />
                   </div>
-                </TiltCard>
+                </div>
               </FadeInSection>
             </div>
           </div>
@@ -684,33 +622,27 @@ function App(): JSX.Element {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FadeInSection delay="100ms">
-                <TiltCard className="h-full">
-                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-all duration-500 h-full relative z-20">
-                    <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
-                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
-                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
-                  </div>
-                </TiltCard>
+                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
+                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
+                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
+                </div>
               </FadeInSection>
               
               <FadeInSection delay="200ms">
-                <TiltCard className="h-full">
-                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 transition-all duration-500 h-full relative z-20">
-                    <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
-                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
-                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
-                  </div>
-                </TiltCard>
+                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
+                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
+                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
+                </div>
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <TiltCard className="h-full">
-                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-all duration-500 h-full relative z-20">
-                    <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
-                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
-                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
-                  </div>
-                </TiltCard>
+                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
+                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
+                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
+                </div>
               </FadeInSection>
             </div>
           </div>
@@ -802,24 +734,18 @@ function App(): JSX.Element {
               <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <MagneticButton href="mailto:rakacembol@gmail.com" className="w-full sm:w-auto">
-                  <span className="flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg w-full sm:w-auto">
-                    <span className="material-symbols-outlined mr-3">mail</span>
-                    {t.contact.btn}
-                  </span>
-                </MagneticButton>
-                <MagneticButton href="https://www.linkedin.com/in/raka-anugrah-satya/" className="w-full sm:w-auto">
-                  <span className="flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto">
-                    <LinkedInIcon />
-                    <span className="ml-3">LinkedIn</span>
-                  </span>
-                </MagneticButton>
-                <MagneticButton href="https://github.com/kaadutz" className="w-full sm:w-auto">
-                  <span className="flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto">
-                    <GithubIcon />
-                    <span className="ml-3">GitHub</span>
-                  </span>
-                </MagneticButton>
+                <a href="mailto:rakacembol@gmail.com" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg hover:-translate-y-1">
+                  <span className="material-symbols-outlined mr-3">mail</span>
+                  {t.contact.btn}
+                </a>
+                <a href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
+                  <LinkedInIcon />
+                  <span className="ml-3">LinkedIn</span>
+                </a>
+                <a href="https://github.com/kaadutz" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
+                  <GithubIcon />
+                  <span className="ml-3">GitHub</span>
+                </a>
               </div>
             </FadeInSection>
           </div>
