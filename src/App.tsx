@@ -1,3 +1,8 @@
+Ini dia kode lengkapnya! Saya sudah mengintegrasikan semua komponen animasi (Cursor Spotlight, Floating Particles, Typewriter, Tilt Card, dan Magnetic Button) ke dalam *file* kamu.
+
+Pastikan kamu *copy* semua kode di bawah ini dan *paste* ke *file* `App.tsx` (atau `App.jsx`) milikmu.
+
+```tsx
 import { useState, useEffect, useRef, ReactNode } from 'react';
 
 // --- TIPE DATA ---
@@ -22,7 +27,7 @@ const dict = {
     hero: {
       role: "Fresh Graduate | Software Engineering",
       titleStart: "Ready to build ",
-      titleItalic: "impactful",
+      typewriterWords: ["impactful", "scalable", "efficient", "aesthetic"],
       titleEnd: " digital solutions.",
       desc: "I am a highly motivated Software Engineering fresh graduate from SMKN 71 Jakarta. Fluent in English and equipped with strong technical skills, I am eager to bring fresh perspectives and great teamwork to the professional industry.",
       btn: "See My Profile"
@@ -59,8 +64,8 @@ const dict = {
     nav: { work: "Proyek", about: "Tentang", experience: "Pengalaman", contact: "Kontak" },
     hero: {
       role: "Lulusan Baru | Rekayasa Perangkat Lunak",
-      titleStart: "Siap berkontribusi membangun ",
-      titleItalic: "solusi",
+      titleStart: "Siap membangun ",
+      typewriterWords: ["solusi", "sistem", "aplikasi", "karya"],
       titleEnd: " digital.",
       desc: "Saya adalah lulusan baru (Fresh Graduate) jurusan Rekayasa Perangkat Lunak dari SMKN 71 Jakarta. Memiliki motivasi tinggi, mahir berbahasa Inggris, dan siap memberikan kemampuan teknis serta kolaborasi tim yang hebat di dunia industri.",
       btn: "Lihat Profil Saya"
@@ -93,6 +98,154 @@ const dict = {
     },
     footer: "Siap berkontribusi untuk industri digital."
   }
+};
+
+// --- CUSTOM COMPONENTS (ANIMASI & EFEK) ---
+
+const CursorSpotlight = () => {
+  const [pos, setPos] = useState({ x: -1000, y: -1000 }); // Mulai di luar layar
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-300"
+      style={{
+        background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(100, 116, 139, 0.08), transparent 40%)`
+      }}
+    />
+  );
+};
+
+const FloatingParticles = () => {
+  const particles = Array.from({ length: 35 }).map((_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 10 + 10,
+    delay: Math.random() * 5,
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <style>
+        {`
+          @keyframes floatUp {
+            0% { transform: translateY(0px) scale(1); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+          }
+        `}
+      </style>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute rounded-full bg-primary/40 dark:bg-tertiary-fixed/40 blur-[1px]"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            animation: `floatUp ${p.duration}s infinite ease-in-out ${p.delay}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Typewriter = ({ words }: { words: string[] }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  useEffect(() => {
+    if (index >= words.length) return;
+    
+    if (subIndex === words[index].length + 1 && !reverse) {
+      const timer = setTimeout(() => setReverse(true), 2000);
+      return () => clearTimeout(timer);
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? 50 : 100);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, words]);
+
+  return (
+    <span className="italic text-tertiary dark:text-tertiary-fixed inline-block text-left text-primary min-w-[200px]">
+      {words[index]?.substring(0, subIndex)}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+};
+
+const TiltCard = ({ children, className = "" }: { children: ReactNode, className?: string }) => {
+  const [style, setStyle] = useState({});
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - left) / width - 0.5;
+    const y = (e.clientY - top) / height - 0.5;
+    
+    setStyle({
+      transform: `perspective(1000px) rotateY(${x * 15}deg) rotateX(${y * -15}deg)`,
+      transition: 'transform 0.1s ease-out'
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setStyle({ transform: 'perspective(1000px) rotateY(0) rotateX(0)', transition: 'transform 0.5s ease-out' });
+  };
+
+  return (
+    <div 
+      className={`will-change-transform ${className}`} 
+      onMouseMove={handleMouseMove} 
+      onMouseLeave={handleMouseLeave} 
+      style={style}
+    >
+      {children}
+    </div>
+  );
+};
+
+const MagneticButton = ({ children, href, className = "" }: { children: ReactNode, href: string, className?: string }) => {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - (left + width / 2)) * 0.3; 
+    const y = (e.clientY - (top + height / 2)) * 0.3;
+    setPos({ x, y });
+  };
+
+  const handleMouseLeave = () => setPos({ x: 0, y: 0 });
+
+  return (
+    <a
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`inline-block transition-transform duration-100 ease-out ${className}`}
+      style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}
+    >
+      {children}
+    </a>
+  );
 };
 
 // --- KOMPONEN ANIMASI SCROLL SECTION ---
@@ -132,7 +285,7 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
 function App(): JSX.Element {
   // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
-  const [isDark, setIsDark] = useState<boolean>(false);
+  const [isDark, setIsDark] = useState<boolean>(true); // Diubah default dark biar efek lebih terlihat
   
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -281,6 +434,9 @@ function App(): JSX.Element {
   return (
     <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
       
+      {/* --- EFEK SPOTLIGHT GLOBAL --- */}
+      <CursorSpotlight />
+
       {/* --- DYNAMIC NAVBAR --- */}
       <nav 
         className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[700ms] ease-out origin-top ${
@@ -330,7 +486,7 @@ function App(): JSX.Element {
             </button>
             <button 
               onClick={() => setIsDark(!isDark)}
-              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm"
+              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm z-50 relative"
               aria-label="Toggle Dark Mode"
             >
               <span className="material-symbols-outlined text-lg md:text-xl">
@@ -372,6 +528,10 @@ function App(): JSX.Element {
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
         <section className="relative pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[819px] overflow-hidden">
+          
+          {/* EFEK PARTIKEL MELAYANG (MAGICAL DUST) */}
+          <FloatingParticles />
+
           <div 
             className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-center bg-fixed transition-opacity duration-1000"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
@@ -387,7 +547,12 @@ function App(): JSX.Element {
                 {t.hero.role}
               </p>
               <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6">
-                {t.hero.titleStart}<span className="italic text-tertiary dark:text-tertiary-fixed">{t.hero.titleItalic}</span> <br /> {t.hero.titleEnd}
+                {t.hero.titleStart}
+                
+                {/* EFEK TYPEWRITER */}
+                <Typewriter words={t.hero.typewriterWords} />
+                
+                <br /> {t.hero.titleEnd}
               </h1>
             </div>
             
@@ -396,10 +561,13 @@ function App(): JSX.Element {
                 {t.hero.desc}
               </p>
               <div className="pt-12">
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg group hover:-translate-y-1" href="#about">
-                  {t.hero.btn}
-                  <span className="material-symbols-outlined ml-2 transform group-hover:translate-x-1 transition-transform">arrow_downward</span>
-                </a>
+                {/* EFEK MAGNETIC BUTTON */}
+                <MagneticButton href="#about" className="group relative z-20">
+                  <span className="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary dark:text-white rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg">
+                    {t.hero.btn}
+                    <span className="material-symbols-outlined ml-2 transform group-hover:translate-y-1 transition-transform">arrow_downward</span>
+                  </span>
+                </MagneticButton>
               </div>
             </div>
           </div>
@@ -416,67 +584,69 @@ function App(): JSX.Element {
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
-                {projectsData.map((proj, index) => (
-                  <div
-                    key={proj.id}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                      index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                    }`}
-                  >
-                    {proj.image ? (
-                      <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
-                        <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
-                        <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
-                      </div>
-                    )}
-                    
-                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
-                      <div className="max-w-2xl mt-12 md:mt-0">
-                        <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
-                        <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
-                          {lang === 'en' ? proj.descEn : proj.descId}
-                        </p>
+              <TiltCard>
+                <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
+                  {projectsData.map((proj, index) => (
+                    <div
+                      key={proj.id}
+                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                        index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                      }`}
+                    >
+                      {proj.image ? (
+                        <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
+                          <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
+                          <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
+                        </div>
+                      )}
+                      
+                      <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
+                        <div className="max-w-2xl mt-12 md:mt-0">
+                          <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
+                          <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
+                            {lang === 'en' ? proj.descEn : proj.descId}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-
-                {/* Arrow Navigation for Projects */}
-                <button 
-                  onClick={prevProjSlide} 
-                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
-                </button>
-                <button 
-                  onClick={nextProjSlide} 
-                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
-                </button>
-
-                <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
-                  {projectsData.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentProjSlide(index)}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
-                      }`}
-                    />
                   ))}
+
+                  {/* Arrow Navigation for Projects */}
+                  <button 
+                    onClick={prevProjSlide} 
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                  >
+                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
+                  </button>
+                  <button 
+                    onClick={nextProjSlide} 
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                  >
+                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
+                  </button>
+
+                  <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
+                    {projectsData.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentProjSlide(index)}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${
+                          index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </TiltCard>
             </FadeInSection>
           </div>
         </section>
 
         {/* --- ABOUT SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50" id="about">
-          <div className="max-w-7xl mx-auto">
+        <section className="py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50 relative z-10" id="about">
+          <div className="max-w-7xl mx-auto relative">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-20">
                 <h2 className="font-headline text-4xl md:text-5xl text-on-background dark:text-white">{t.about.title}</h2>
@@ -493,22 +663,24 @@ function App(): JSX.Element {
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <div className="flex items-center justify-center lg:justify-end">
-                  <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
-                    <img 
-                      alt="Raka Anugrah Satya Profile" 
-                      className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
-                      src="/images/fotogw.jpeg" 
-                    />
+                <TiltCard>
+                  <div className="flex items-center justify-center lg:justify-end">
+                    <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
+                      <img 
+                        alt="Raka Anugrah Satya Profile" 
+                        className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
+                        src="/images/fotogw.jpeg" 
+                      />
+                    </div>
                   </div>
-                </div>
+                </TiltCard>
               </FadeInSection>
             </div>
           </div>
         </section>
 
         {/* --- EXPERTISE SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900" id="skills">
+        <section className="py-32 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900 relative z-10" id="skills">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-20">
@@ -519,34 +691,40 @@ function App(): JSX.Element {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FadeInSection delay="100ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
-                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
-                </div>
+                <TiltCard className="h-full">
+                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-all duration-500 h-full relative z-20">
+                    <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
+                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
+                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
+                  </div>
+                </TiltCard>
               </FadeInSection>
               
               <FadeInSection delay="200ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
-                  <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
-                </div>
+                <TiltCard className="h-full">
+                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 transition-all duration-500 h-full relative z-20">
+                    <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
+                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
+                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
+                  </div>
+                </TiltCard>
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full">
-                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
-                </div>
+                <TiltCard className="h-full">
+                  <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-all duration-500 h-full relative z-20">
+                    <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
+                    <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
+                    <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
+                  </div>
+                </TiltCard>
               </FadeInSection>
             </div>
           </div>
         </section>
 
         {/* --- EXPERIENCE SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface dark:bg-gray-800/20" id="experience">
+        <section className="py-32 px-6 md:px-12 bg-surface dark:bg-gray-800/20 relative z-10" id="experience">
           <div className="max-w-5xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-16">
@@ -591,7 +769,7 @@ function App(): JSX.Element {
                   </button>
                 </div>
 
-                <div className="text-center md:text-left min-h-[140px] px-4 md:px-0">
+                <div className="text-center md:text-left min-h-[140px] px-4 md:px-0 relative z-20">
                   <h3 className="font-headline text-2xl md:text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
                   <p className="font-label text-xs md:text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-4">{experiencesData[currentExpSlide].role}</p>
                   <p className="font-body text-sm md:text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed max-w-3xl">
@@ -599,7 +777,7 @@ function App(): JSX.Element {
                   </p>
                 </div>
 
-                <div className="flex justify-center md:justify-start gap-3 mt-8 px-4 md:px-0">
+                <div className="flex justify-center md:justify-start gap-3 mt-8 px-4 md:px-0 relative z-20">
                   {experiencesData.map((_, index) => (
                     <button
                       key={index}
@@ -625,24 +803,30 @@ function App(): JSX.Element {
           <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
           
-          <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto text-center relative z-20">
             <FadeInSection>
               <h2 className="font-headline text-4xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
               <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg w-full sm:w-auto" href="mailto:rakacembol@gmail.com">
-                  <span className="material-symbols-outlined mr-3">mail</span>
-                  {t.contact.btn}
-                </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer">
-                  <LinkedInIcon />
-                  <span className="ml-3">LinkedIn</span>
-                </a>
-                <a className="inline-flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto" href="https://github.com/kaadutz" target="_blank" rel="noreferrer">
-                  <GithubIcon />
-                  <span className="ml-3">GitHub</span>
-                </a>
+                <MagneticButton href="mailto:rakacembol@gmail.com" className="w-full sm:w-auto">
+                  <span className="flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg w-full sm:w-auto">
+                    <span className="material-symbols-outlined mr-3">mail</span>
+                    {t.contact.btn}
+                  </span>
+                </MagneticButton>
+                <MagneticButton href="https://www.linkedin.com/in/raka-anugrah-satya/" className="w-full sm:w-auto">
+                  <span className="flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto">
+                    <LinkedInIcon />
+                    <span className="ml-3">LinkedIn</span>
+                  </span>
+                </MagneticButton>
+                <MagneticButton href="https://github.com/kaadutz" className="w-full sm:w-auto">
+                  <span className="flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 w-full sm:w-auto">
+                    <GithubIcon />
+                    <span className="ml-3">GitHub</span>
+                  </span>
+                </MagneticButton>
               </div>
             </FadeInSection>
           </div>
@@ -658,7 +842,7 @@ function App(): JSX.Element {
               © {new Date().getFullYear()} Raka Anugrah Satya. <br/> {t.footer}
             </p>
           </div>
-          <ul className="flex items-center gap-6 font-label text-sm tracking-wide">
+          <ul className="flex items-center gap-6 font-label text-sm tracking-wide relative z-30">
             <li>
               <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <LinkedInIcon />
@@ -689,3 +873,5 @@ function App(): JSX.Element {
 }
 
 export default App;
+
+```
