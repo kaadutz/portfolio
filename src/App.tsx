@@ -108,7 +108,7 @@ const CursorSpotlight = () => {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-300"
+      className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-300 hidden md:block"
       style={{
         background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(100, 116, 139, 0.08), transparent 40%)`
       }}
@@ -117,7 +117,7 @@ const CursorSpotlight = () => {
 };
 
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 35 }).map((_, i) => ({
+  const particles = Array.from({ length: 30 }).map((_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -179,12 +179,22 @@ const Typewriter = ({ words }: { words: string[] }) => {
   }, [subIndex, index, reverse, words]);
 
   return (
-    <span className="italic text-tertiary dark:text-tertiary-fixed inline-block text-left text-primary min-w-[200px]">
+    <span className="italic text-tertiary dark:text-tertiary-fixed inline-block text-left text-primary min-w-[200px] md:min-w-[250px]">
       {words[index]?.substring(0, subIndex)}
       <span className="animate-pulse">|</span>
     </span>
   );
 };
+
+// --- PEMBATAS SECTION (BARU) ---
+const SectionDivider = () => (
+  <div className="relative w-full h-12 flex items-center justify-center overflow-visible z-20 my-[-24px]">
+    {/* Garis gradien */}
+    <div className="absolute w-3/4 max-w-4xl h-px bg-gradient-to-r from-transparent via-primary/40 dark:via-primary-fixed/30 to-transparent"></div>
+    {/* Titik tengah bercahaya (Belah Ketupat) */}
+    <div className="absolute w-3 h-3 rotate-45 bg-surface dark:bg-gray-800 border border-primary/50 dark:border-primary-fixed/50 shadow-[0_0_12px_rgba(var(--color-primary),0.6)]"></div>
+  </div>
+);
 
 // --- KOMPONEN ANIMASI SCROLL SECTION ---
 const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
@@ -236,8 +246,10 @@ function App(): JSX.Element {
 
   const t = dict[lang];
 
-  // Efek Dark Mode
+  // Efek Dark Mode & Smooth Scroll Global
   useEffect(() => {
+    document.documentElement.classList.add('scroll-smooth'); // Membuat perpindahan anchor link jadi mulus
+
     if (isDark) {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
@@ -465,7 +477,7 @@ function App(): JSX.Element {
 
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
-        <section className="relative pt-32 pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[819px] overflow-hidden">
+        <section className="relative pt-32 pb-24 md:pb-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[100svh] overflow-hidden">
           
           {/* EFEK PARTIKEL MELAYANG (MAGICAL DUST) */}
           <FloatingParticles />
@@ -476,50 +488,51 @@ function App(): JSX.Element {
           ></div>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background dark:via-gray-900/50 dark:to-gray-900 z-0"></div>
 
-          <div className="absolute top-1/4 left-10 w-64 h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse z-0"></div>
-          <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-tertiary-container dark:bg-tertiary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse z-0" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/4 left-10 w-48 md:w-64 h-48 md:h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse z-0"></div>
+          <div className="absolute bottom-1/4 right-10 w-56 md:w-72 h-56 md:h-72 bg-tertiary-container dark:bg-tertiary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse z-0" style={{ animationDelay: '2s' }}></div>
           
-          <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
+          <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8 mt-12 md:mt-0">
             <div className="animate-[fadeInUp_1s_ease-out_0.2s_both]">
-              <p className="font-label text-xs md:text-sm uppercase tracking-[0.15em] text-tertiary dark:text-tertiary-fixed font-bold mb-4 bg-tertiary/10 dark:bg-tertiary-fixed/10 inline-block px-4 py-2 rounded-full border border-tertiary/20">
+              <p className="font-label text-[10px] md:text-sm uppercase tracking-[0.15em] text-tertiary dark:text-tertiary-fixed font-bold mb-4 bg-tertiary/10 dark:bg-tertiary-fixed/10 inline-block px-4 py-2 rounded-full border border-tertiary/20">
                 {t.hero.role}
               </p>
-              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6">
+              <h1 className="font-headline text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6">
                 {t.hero.titleStart}
-                
+                <br className="sm:hidden"/>
                 {/* EFEK TYPEWRITER */}
                 <Typewriter words={t.hero.typewriterWords} />
-                
                 <br /> {t.hero.titleEnd}
               </h1>
             </div>
             
             <div className="animate-[fadeInUp_1s_ease-out_0.4s_both]">
-              <p className="font-body text-lg md:text-xl text-on-surface-variant dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mt-8">
+              <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mt-8 px-4 md:px-0">
                 {t.hero.desc}
               </p>
-              <div className="pt-12">
-                <a href="#about" className="group relative z-20 inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary dark:text-white rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg hover:-translate-y-1">
+              <div className="pt-10 md:pt-12">
+                <a href="#about" className="group relative z-20 inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-primary text-on-primary dark:text-white rounded-xl font-label font-bold tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary-fixed transition-all duration-300 shadow-lg hover:-translate-y-1 text-sm md:text-base">
                   {t.hero.btn}
-                  <span className="material-symbols-outlined ml-2 transform group-hover:translate-y-1 transition-transform">arrow_downward</span>
+                  <span className="material-symbols-outlined ml-2 transform group-hover:translate-y-1 transition-transform text-lg md:text-xl">arrow_downward</span>
                 </a>
               </div>
             </div>
           </div>
         </section>
 
+        <SectionDivider />
+
         {/* --- PROJECTS SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-10" id="work">
+        <section className="py-20 md:py-32 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-10 scroll-mt-24 md:scroll-mt-32" id="work">
           <div className="max-w-6xl mx-auto">
             <FadeInSection>
-              <div className="flex items-baseline justify-between mb-16">
-                <h2 className="font-headline text-4xl md:text-5xl text-on-background dark:text-white">{t.projects.title}</h2>
-                <div className="h-px bg-outline-variant/50 dark:bg-gray-800 flex-grow ml-8 hidden md:block"></div>
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-12 md:mb-16 gap-4 md:gap-0">
+                <h2 className="font-headline text-3xl md:text-5xl text-on-background dark:text-white">{t.projects.title}</h2>
+                <div className="h-px bg-outline-variant/50 dark:bg-gray-800 flex-grow md:ml-8 w-full md:w-auto"></div>
               </div>
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
+              <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
                 {projectsData.map((proj, index) => (
                   <div
                     key={proj.id}
@@ -531,14 +544,14 @@ function App(): JSX.Element {
                       <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
-                        <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
-                        <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
+                        <span className="material-symbols-outlined text-4xl md:text-6xl mb-4 opacity-50">web</span>
+                        <span className="font-label text-xs md:text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
                       </div>
                     )}
                     
                     <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
-                      <div className="max-w-2xl mt-12 md:mt-0">
-                        <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
+                      <div className="max-w-2xl mt-8 md:mt-0">
+                        <h3 className="font-headline text-xl md:text-4xl text-white mb-2">{proj.title}</h3>
                         <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
                           {lang === 'en' ? proj.descEn : proj.descId}
                         </p>
@@ -550,24 +563,24 @@ function App(): JSX.Element {
                 {/* Arrow Navigation for Projects */}
                 <button 
                   onClick={prevProjSlide} 
-                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 transform hover:scale-110"
                 >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
+                  <span className="material-symbols-outlined text-base md:text-2xl">chevron_left</span>
                 </button>
                 <button 
                   onClick={nextProjSlide} 
-                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 transform hover:scale-110"
                 >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
+                  <span className="material-symbols-outlined text-base md:text-2xl">chevron_right</span>
                 </button>
 
-                <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
+                <div className="absolute top-3 right-3 md:top-6 md:right-8 z-20 flex gap-1.5 md:gap-2 bg-black/40 backdrop-blur-md px-2 py-1 md:px-4 md:py-2 rounded-full">
                   {projectsData.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentProjSlide(index)}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
+                      className={`h-1.5 md:h-1.5 rounded-full transition-all duration-500 ${
+                        index === currentProjSlide ? "bg-primary-fixed w-3 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
                       }`}
                     />
                   ))}
@@ -577,27 +590,29 @@ function App(): JSX.Element {
           </div>
         </section>
 
+        <SectionDivider />
+
         {/* --- ABOUT SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50 relative z-10" id="about">
+        <section className="py-20 md:py-32 px-6 md:px-12 bg-surface-container dark:bg-gray-800/50 relative z-10 scroll-mt-24 md:scroll-mt-32" id="about">
           <div className="max-w-7xl mx-auto relative">
             <FadeInSection>
-              <div className="flex items-baseline justify-between mb-20">
-                <h2 className="font-headline text-4xl md:text-5xl text-on-background dark:text-white">{t.about.title}</h2>
-                <div className="h-px bg-outline-variant/50 dark:bg-gray-700 flex-grow ml-8 hidden md:block"></div>
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-12 md:mb-20 gap-4 md:gap-0">
+                <h2 className="font-headline text-3xl md:text-5xl text-on-background dark:text-white">{t.about.title}</h2>
+                <div className="h-px bg-outline-variant/50 dark:bg-gray-700 flex-grow md:ml-8 w-full md:w-auto"></div>
               </div>
             </FadeInSection>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
               <FadeInSection delay="100ms">
                 <div>
-                  <p className="font-body text-xl text-on-surface-variant dark:text-gray-300 leading-relaxed mb-6">{t.about.p1}</p>
-                  <p className="font-body text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed mb-12">{t.about.p2}</p>
+                  <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-300 leading-relaxed mb-6">{t.about.p1}</p>
+                  <p className="font-body text-sm md:text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed mb-8 md:mb-12">{t.about.p2}</p>
                 </div>
               </FadeInSection>
               
               <FadeInSection delay="300ms">
                 <div className="flex items-center justify-center lg:justify-end">
-                  <div className="w-full max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
+                  <div className="w-full max-w-[280px] md:max-w-md aspect-[4/5] overflow-hidden rounded-2xl bg-surface-variant dark:bg-gray-800 shadow-md flex flex-col items-center justify-center relative group border-4 border-white/50 dark:border-gray-700/50">
                     <img 
                       alt="Raka Anugrah Satya Profile" 
                       className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" 
@@ -610,57 +625,61 @@ function App(): JSX.Element {
           </div>
         </section>
 
+        <SectionDivider />
+
         {/* --- EXPERTISE SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900 relative z-10" id="skills">
+        <section className="py-20 md:py-32 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900 relative z-10 scroll-mt-24 md:scroll-mt-32" id="skills">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
-              <div className="flex items-baseline justify-between mb-20">
-                <h2 className="font-headline text-4xl md:text-5xl text-on-background dark:text-white">{t.skills.title}</h2>
-                <div className="h-px bg-outline-variant/50 dark:bg-gray-800 flex-grow ml-8 hidden md:block"></div>
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-12 md:mb-20 gap-4 md:gap-0">
+                <h2 className="font-headline text-3xl md:text-5xl text-on-background dark:text-white">{t.skills.title}</h2>
+                <div className="h-px bg-outline-variant/50 dark:bg-gray-800 flex-grow md:ml-8 w-full md:w-auto"></div>
               </div>
             </FadeInSection>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               <FadeInSection delay="100ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
-                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
+                <div className="bg-surface dark:bg-gray-800 p-6 md:p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-3xl md:text-4xl mb-4 md:mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-3 md:p-4 rounded-xl inline-block">computer</span>
+                  <h3 className="font-headline text-xl md:text-2xl text-on-background dark:text-white mb-2 md:mb-3">{t.skills.s1}</h3>
+                  <p className="font-body text-sm md:text-base text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
                 </div>
               </FadeInSection>
               
               <FadeInSection delay="200ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
-                  <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
+                <div className="bg-surface dark:bg-gray-800 p-6 md:p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-3xl md:text-4xl mb-4 md:mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-3 md:p-4 rounded-xl inline-block">language</span>
+                  <h3 className="font-headline text-xl md:text-2xl text-on-background dark:text-white mb-2 md:mb-3">{t.skills.s2}</h3>
+                  <p className="font-body text-sm md:text-base text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
                 </div>
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
-                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
-                  <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
-                  <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
+                <div className="bg-surface dark:bg-gray-800 p-6 md:p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                  <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-3xl md:text-4xl mb-4 md:mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-3 md:p-4 rounded-xl inline-block">groups</span>
+                  <h3 className="font-headline text-xl md:text-2xl text-on-background dark:text-white mb-2 md:mb-3">{t.skills.s3}</h3>
+                  <p className="font-body text-sm md:text-base text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
                 </div>
               </FadeInSection>
             </div>
           </div>
         </section>
 
+        <SectionDivider />
+
         {/* --- EXPERIENCE SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-surface dark:bg-gray-800/20 relative z-10" id="experience">
+        <section className="py-20 md:py-32 px-6 md:px-12 bg-surface dark:bg-gray-800/20 relative z-10 scroll-mt-24 md:scroll-mt-32" id="experience">
           <div className="max-w-5xl mx-auto">
             <FadeInSection>
-              <div className="flex items-baseline justify-between mb-16">
-                <h2 className="font-headline text-4xl md:text-5xl text-on-background dark:text-white">{t.exp.title}</h2>
-                <div className="h-px bg-outline-variant/50 dark:bg-gray-700 flex-grow ml-8 hidden md:block"></div>
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-12 md:mb-16 gap-4 md:gap-0">
+                <h2 className="font-headline text-3xl md:text-5xl text-on-background dark:text-white">{t.exp.title}</h2>
+                <div className="h-px bg-outline-variant/50 dark:bg-gray-700 flex-grow md:ml-8 w-full md:w-auto"></div>
               </div>
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <div className="relative bg-surface-container-lowest dark:bg-gray-800 rounded-3xl p-6 md:p-10 shadow-sm border border-outline-variant/20 dark:border-gray-700">
-                <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden bg-surface-variant dark:bg-gray-900 mb-8 group">
+              <div className="relative bg-surface-container-lowest dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-10 shadow-sm border border-outline-variant/20 dark:border-gray-700">
+                <div className="relative w-full aspect-[4/3] sm:aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden bg-surface-variant dark:bg-gray-900 mb-6 md:mb-8 group">
                   {experiencesData.map((exp, index) => (
                     <div
                       key={exp.id}
@@ -672,8 +691,8 @@ function App(): JSX.Element {
                         <img src={exp.image} alt={exp.title} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600 bg-surface-variant dark:bg-gray-900">
-                          <span className="material-symbols-outlined text-6xl mb-2 opacity-50">photo_library</span>
-                          <span className="font-label text-sm tracking-widest uppercase opacity-70">{t.exp.photoHint}</span>
+                          <span className="material-symbols-outlined text-4xl md:text-6xl mb-2 opacity-50">photo_library</span>
+                          <span className="font-label text-xs md:text-sm tracking-widest uppercase opacity-70">{t.exp.photoHint}</span>
                         </div>
                       )}
                     </div>
@@ -682,33 +701,33 @@ function App(): JSX.Element {
                   {/* Arrow Navigation for Experience */}
                   <button 
                     onClick={prevExpSlide} 
-                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 transform hover:scale-110"
                   >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
+                    <span className="material-symbols-outlined text-base md:text-2xl">chevron_left</span>
                   </button>
                   <button 
                     onClick={nextExpSlide} 
-                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 transform hover:scale-110"
                   >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
+                    <span className="material-symbols-outlined text-base md:text-2xl">chevron_right</span>
                   </button>
                 </div>
 
-                <div className="text-center md:text-left min-h-[140px] px-4 md:px-0 relative z-20">
-                  <h3 className="font-headline text-2xl md:text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
-                  <p className="font-label text-xs md:text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-4">{experiencesData[currentExpSlide].role}</p>
+                <div className="text-center md:text-left min-h-[140px] px-2 md:px-0 relative z-20">
+                  <h3 className="font-headline text-xl md:text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
+                  <p className="font-label text-[10px] md:text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-3 md:mb-4">{experiencesData[currentExpSlide].role}</p>
                   <p className="font-body text-sm md:text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed max-w-3xl">
                     {lang === 'en' ? experiencesData[currentExpSlide].descEn : experiencesData[currentExpSlide].descId}
                   </p>
                 </div>
 
-                <div className="flex justify-center md:justify-start gap-3 mt-8 px-4 md:px-0 relative z-20">
+                <div className="flex justify-center md:justify-start gap-2 md:gap-3 mt-6 md:mt-8 px-2 md:px-0 relative z-20">
                   {experiencesData.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentExpSlide(index)}
                       className={`h-1.5 md:h-2 rounded-full transition-all duration-500 ${
-                        index === currentExpSlide ? "bg-primary dark:bg-primary-fixed w-6 md:w-8" : "bg-outline-variant dark:bg-gray-600 w-1.5 md:w-2 hover:bg-outline dark:hover:bg-gray-500"
+                        index === currentExpSlide ? "bg-primary dark:bg-primary-fixed w-5 md:w-8" : "bg-outline-variant dark:bg-gray-600 w-1.5 md:w-2 hover:bg-outline dark:hover:bg-gray-500"
                       }`}
                     />
                   ))}
@@ -718,31 +737,33 @@ function App(): JSX.Element {
           </div>
         </section>
 
+        <SectionDivider />
+
         {/* --- CONTACT SECTION --- */}
-        <section className="py-32 px-6 md:px-12 bg-secondary-container dark:bg-gray-900 relative overflow-hidden" id="contact">
+        <section className="py-24 md:py-32 px-6 md:px-12 bg-secondary-container dark:bg-gray-900 relative overflow-hidden scroll-mt-24 md:scroll-mt-32" id="contact">
           <div 
             className="absolute inset-0 z-0 opacity-[0.1] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-bottom transition-opacity duration-1000"
             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
           ></div>
 
-          <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
+          <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
+          <div className="absolute bottom-0 left-0 w-48 md:w-64 h-48 md:h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
           
           <div className="max-w-4xl mx-auto text-center relative z-20">
             <FadeInSection>
-              <h2 className="font-headline text-4xl md:text-6xl text-on-secondary-container dark:text-white mb-8">{t.contact.title}</h2>
-              <p className="font-body text-base md:text-xl text-on-surface-variant dark:text-gray-400 mb-12 max-w-2xl mx-auto">{t.contact.desc}</p>
+              <h2 className="font-headline text-3xl md:text-6xl text-on-secondary-container dark:text-white mb-6 md:mb-8">{t.contact.title}</h2>
+              <p className="font-body text-sm md:text-xl text-on-surface-variant dark:text-gray-400 mb-10 md:mb-12 max-w-2xl mx-auto px-4 md:px-0">{t.contact.desc}</p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="mailto:rakacembol@gmail.com" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg hover:-translate-y-1">
-                  <span className="material-symbols-outlined mr-3">mail</span>
+                <a href="mailto:rakacembol@gmail.com" className="w-full sm:w-auto flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-primary dark:bg-primary-fixed text-on-primary dark:text-black rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:bg-primary-fixed-dim dark:hover:bg-primary transition-colors duration-300 shadow-lg hover:-translate-y-1">
+                  <span className="material-symbols-outlined mr-3 text-lg md:text-xl">mail</span>
                   {t.contact.btn}
                 </a>
-                <a href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
+                <a href="https://www.linkedin.com/in/raka-anugrah-satya/" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
                   <LinkedInIcon />
                   <span className="ml-3">LinkedIn</span>
                 </a>
-                <a href="https://github.com/kaadutz" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
+                <a href="https://github.com/kaadutz" target="_blank" rel="noreferrer" className="w-full sm:w-auto flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-surface dark:bg-gray-800 text-on-surface dark:text-white border border-outline-variant/30 rounded-xl font-label font-bold text-sm md:text-base tracking-wide hover:border-primary transition-all duration-300 hover:-translate-y-1">
                   <GithubIcon />
                   <span className="ml-3">GitHub</span>
                 </a>
@@ -754,10 +775,10 @@ function App(): JSX.Element {
 
       {/* --- FOOTER --- */}
       <footer className="bg-inverse-surface dark:bg-black full-width flat relative z-20">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-center w-full px-6 md:px-12 py-10 md:py-12 gap-6 md:gap-8 max-w-7xl mx-auto">
           <div className="space-y-2 text-center md:text-left">
-            <span className="font-headline text-lg md:text-xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
-            <p className="font-body text-xs md:text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed mx-auto md:mx-0">
+            <span className="font-headline text-base md:text-xl text-tertiary-fixed dark:text-gray-200 block">Raka Anugrah Satya</span>
+            <p className="font-body text-[10px] md:text-sm text-tertiary-fixed-dim dark:text-gray-500 max-w-xs leading-relaxed mx-auto md:mx-0">
               © {new Date().getFullYear()} Raka Anugrah Satya. <br/> {t.footer}
             </p>
           </div>
@@ -779,7 +800,7 @@ function App(): JSX.Element {
             </li>
             <li>
               <a className="text-tertiary-fixed dark:text-gray-400 hover:text-primary-fixed-dim dark:hover:text-white transition-colors duration-300 flex items-center gap-2" href="mailto:rakacembol@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
               </a>
