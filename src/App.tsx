@@ -1,8 +1,3 @@
-Ini dia kode lengkapnya! Saya sudah mengintegrasikan semua komponen animasi (Cursor Spotlight, Floating Particles, Typewriter, Tilt Card, dan Magnetic Button) ke dalam *file* kamu.
-
-Pastikan kamu *copy* semua kode di bawah ini dan *paste* ke *file* `App.tsx` (atau `App.jsx`) milikmu.
-
-```tsx
 import { useState, useEffect, useRef, ReactNode } from 'react';
 
 // --- TIPE DATA ---
@@ -133,15 +128,13 @@ const FloatingParticles = () => {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      <style>
-        {`
-          @keyframes floatUp {
-            0% { transform: translateY(0px) scale(1); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
-          }
-        `}
-      </style>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes floatUp {
+          0% { transform: translateY(0px) scale(1); opacity: 0; }
+          50% { opacity: 0.8; }
+          100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+        }
+      ` }} />
       {particles.map((p) => (
         <div
           key={p.id}
@@ -285,7 +278,7 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
 function App(): JSX.Element {
   // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
-  const [isDark, setIsDark] = useState<boolean>(true); // Diubah default dark biar efek lebih terlihat
+  const [isDark, setIsDark] = useState<boolean>(true);
   
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -873,5 +866,3 @@ function App(): JSX.Element {
 }
 
 export default App;
-
-```
