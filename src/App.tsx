@@ -117,7 +117,6 @@ const CursorSpotlight = () => {
 };
 
 const FloatingParticles = () => {
-  // BUG FIX: useMemo mengunci partikel agar tidak random ulang saat di-scroll
   const particles = useMemo(() => {
     return Array.from({ length: 35 }).map((_, i) => ({
       id: i,
@@ -226,7 +225,8 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
 function App(): JSX.Element {
   // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
-  const [isDark, setIsDark] = useState<boolean>(true);
+  // Diubah jadi false agar default-nya Light Mode
+  const [isDark, setIsDark] = useState<boolean>(false);
   
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -379,69 +379,76 @@ function App(): JSX.Element {
       <CursorSpotlight />
 
       {/* --- DYNAMIC NAVBAR --- */}
-      <nav 
-        className={`fixed z-50 left-1/2 transform -translate-x-1/2 transition-all duration-[700ms] ease-out origin-top ${
-          isScrolled 
-            ? 'top-4 w-[95%] sm:w-[90%] md:w-auto md:min-w-[500px] bg-background/85 dark:bg-gray-800/85 backdrop-blur-md shadow-xl rounded-full py-3 px-4 md:px-6 border border-outline-variant/30 dark:border-gray-700/50' 
-            : 'top-0 w-full bg-background dark:bg-gray-900 py-4 px-4 md:px-12 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
-        }`}
-      >
-        <div className="flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto gap-4">
-          
-          {/* Mobile Hamburger Button */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-on-surface-variant dark:text-gray-300 hover:text-primary transition-colors p-1"
-            aria-label="Toggle Menu"
-          >
-            <span className="material-symbols-outlined text-2xl">
-              {isMobileMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
-
-          {/* Desktop Links (Hidden on Mobile) */}
-          <ul className="hidden md:flex items-center justify-center gap-4 font-label text-sm uppercase tracking-widest font-bold">
-            {['work', 'about', 'experience', 'contact'].map((item) => (
-              <li key={item}>
-                <a 
-                  href={`#${item}`} 
-                  className={`px-4 py-2 block transition-colors duration-300 ${
-                    activeSection === item || (item === 'about' && activeSection === 'skills') 
-                      ? 'text-primary dark:text-primary-fixed' 
-                      : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'
-                  }`}
-                >
-                  {t.nav[item as keyof typeof t.nav]}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Toggles Lang & Dark Mode */}
-          <div className="flex items-center gap-2 md:pl-4 md:border-l border-outline-variant/30 dark:border-gray-700 shrink-0">
+      {/* 
+        FIX 1: z-[110] memastikan navbar selalu di atas semua section bertumpuk.
+        FIX 2: Wrapper fix agar animasi max-width mulus dan tidak lompat/patah. 
+      */}
+      <header className={`fixed top-0 left-0 right-0 z-[110] flex justify-center transition-all duration-500 ease-in-out pointer-events-none ${isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'}`}>
+        <nav 
+          className={`pointer-events-auto w-full transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-between md:justify-center ${
+            isScrolled 
+              ? 'max-w-[100%] md:max-w-max bg-background/90 dark:bg-gray-800/90 backdrop-blur-md shadow-xl rounded-full border border-outline-variant/30 dark:border-gray-700/50' 
+              : 'max-w-full bg-background dark:bg-gray-900 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
+          }`}
+        >
+          <div className={`flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto transition-all duration-500 ${isScrolled ? 'py-3 px-4 md:px-6 gap-4 md:gap-8' : 'py-4 px-6 md:px-12 gap-4'}`}>
+            
+            {/* Mobile Hamburger Button */}
             <button 
-              onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
-              className="font-label font-bold text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors px-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-on-surface-variant dark:text-gray-300 hover:text-primary transition-colors p-1"
+              aria-label="Toggle Menu"
             >
-              {lang === 'en' ? 'ID' : 'EN'}
-            </button>
-            <button 
-              onClick={() => setIsDark(!isDark)}
-              className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm z-50 relative"
-              aria-label="Toggle Dark Mode"
-            >
-              <span className="material-symbols-outlined text-lg md:text-xl">
-                {isDark ? 'light_mode' : 'dark_mode'}
+              <span className="material-symbols-outlined text-2xl">
+                {isMobileMenuOpen ? 'close' : 'menu'}
               </span>
             </button>
-          </div>
 
-        </div>
-      </nav>
+            {/* Desktop Links (Hidden on Mobile) */}
+            <ul className="hidden md:flex items-center justify-center gap-4 font-label text-sm uppercase tracking-widest font-bold">
+              {['work', 'about', 'experience', 'contact'].map((item) => (
+                <li key={item}>
+                  <a 
+                    href={`#${item}`} 
+                    className={`px-4 py-2 block transition-colors duration-300 ${
+                      activeSection === item || (item === 'about' && activeSection === 'skills') 
+                        ? 'text-primary dark:text-primary-fixed' 
+                        : 'text-on-surface-variant dark:text-gray-400 hover:text-primary dark:hover:text-primary-fixed'
+                    }`}
+                  >
+                    {t.nav[item as keyof typeof t.nav]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* Toggles Lang & Dark Mode */}
+            <div className={`flex items-center gap-2 md:pl-4 transition-all duration-500 shrink-0 ${isScrolled ? 'border-none md:border-l md:border-outline-variant/30 md:dark:border-gray-700' : 'md:border-l border-outline-variant/30 dark:border-gray-700'}`}>
+              <button 
+                onClick={() => setLang(lang === 'en' ? 'id' : 'en')}
+                className="font-label font-bold text-sm text-on-background dark:text-gray-200 hover:text-primary transition-colors px-2"
+              >
+                {lang === 'en' ? 'ID' : 'EN'}
+              </button>
+              <button 
+                onClick={() => setIsDark(!isDark)}
+                className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm z-50 relative"
+                aria-label="Toggle Dark Mode"
+              >
+                <span className="material-symbols-outlined text-lg md:text-xl">
+                  {isDark ? 'light_mode' : 'dark_mode'}
+                </span>
+              </button>
+            </div>
+            
+          </div>
+        </nav>
+      </header>
 
       {/* --- MOBILE FULLSCREEN MENU --- */}
+      {/* Diperbarui z-index ke 100 agar aman dari section bertumpuk */}
       <div 
-        className={`fixed inset-0 z-40 bg-background/95 dark:bg-gray-900/95 backdrop-blur-lg flex flex-col items-center justify-center transition-all duration-500 ease-in-out md:hidden ${
+        className={`fixed inset-0 z-[100] bg-background/95 dark:bg-gray-900/95 backdrop-blur-lg flex flex-col items-center justify-center transition-all duration-500 ease-in-out md:hidden ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
@@ -468,7 +475,6 @@ function App(): JSX.Element {
 
       <main className="flex-grow">
         {/* --- HERO SECTION --- */}
-        {/* pb-48 ditambah agar ada ruang untuk ditimpa oleh rounded section berikutnya */}
         <section className="relative pt-40 pb-48 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-screen overflow-hidden z-10">
           
           <FloatingParticles />
@@ -488,7 +494,6 @@ function App(): JSX.Element {
                 {t.hero.role}
               </p>
               
-              {/* BUG FIX: Memecah baris judul agar efek mesin ketik tidak menggeser paragraf */}
               <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6 flex flex-col items-center justify-center">
                 <span className="block mb-2">{t.hero.titleStart}</span>
                 <span className="block h-[1.3em] min-h-[1.3em] overflow-hidden">
@@ -513,7 +518,6 @@ function App(): JSX.Element {
         </section>
 
         {/* --- PROJECTS SECTION --- */}
-        {/* NEW DESIGN: Layered rounded cards (-mt-24 dan rounded-t-[3rem]) */}
         <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-20 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="work">
           <div className="max-w-6xl mx-auto">
             <FadeInSection>
@@ -758,7 +762,6 @@ function App(): JSX.Element {
       </main>
 
       {/* --- FOOTER --- */}
-      {/* Ditambahkan rounded-t juga biar menimpa dengan elegan */}
       <footer className="bg-inverse-surface dark:bg-black full-width flat relative z-[70] rounded-t-[3rem] -mt-12">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-center w-full px-6 md:px-12 py-12 gap-8 max-w-7xl mx-auto">
           <div className="space-y-2 text-center md:text-left">
