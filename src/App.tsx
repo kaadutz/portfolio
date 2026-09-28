@@ -8,7 +8,7 @@ interface PortfolioItem {
   descEn: string;
   descId: string;
   image: string;
-  tech?: string[]; // Tambahan untuk Tech Stack Badges
+  tech?: string[];
 }
 
 interface FadeInSectionProps {
@@ -280,7 +280,7 @@ function App(): JSX.Element {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  // Data Projects 
+  // Data Projects dengan Tech Stack yang sudah disesuaikan
   const projectsData: PortfolioItem[] = [
     {
       id: 1,
@@ -288,7 +288,7 @@ function App(): JSX.Element {
       descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.",
       descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.",
       image: "/images/projeklibraria.jpg",
-      tech: ["React", "TailwindCSS", "Node.js"] // Silakan disesuaikan dengan stack aslimu
+      tech: ["HTML", "CSS", "JavaScript", "MySQL"]
     },
     {
       id: 2,
@@ -296,7 +296,7 @@ function App(): JSX.Element {
       descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.",
       descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.",
       image: "/images/projekkasir.jpg",
-      tech: ["PHP", "MySQL", "Bootstrap"]
+      tech: ["HTML", "CSS", "JavaScript", "MySQL"]
     },
     {
       id: 3,
@@ -304,7 +304,7 @@ function App(): JSX.Element {
       descEn: "A digital parking management system designed to track vehicle entry/exit, calculate dynamic parking fees, and generate reports.",
       descId: "Sistem manajemen parkir digital yang dirancang untuk melacak keluar/masuk kendaraan, menghitung tarif parkir dinamis, dan menghasilkan laporan.",
       image: "/images/projekparkir.jpg",
-      tech: ["React", "Express", "TailwindCSS"]
+      tech: ["HTML", "CSS", "JavaScript", "MySQL"]
     },
     {
       id: 4,
@@ -312,7 +312,7 @@ function App(): JSX.Element {
       descEn: "A creative digital promotional campaign for traditional Indonesian snacks (Es Poteng & Klepon Kecerit), utilizing beautiful Ghibli-inspired visual styles and animations.",
       descId: "Kampanye promosi digital kreatif untuk jajanan tradisional Indonesia (Es Poteng & Klepon Kecerit), memanfaatkan gaya visual estetik dan animasi yang terinspirasi dari Studio Ghibli.",
       image: "/images/projekfiver.jpg",
-      tech: ["Figma", "Premiere Pro", "After Effects"]
+      tech: ["React", "Vite"]
     }
   ];
 
@@ -332,7 +332,7 @@ function App(): JSX.Element {
       role: "English Proficiency Award",
       descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
       descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "/images/toeic.jpeg" // Memperbaiki typo di nama file dari toeci.jpeg menjadi toeic.jpeg (berdasarkan struktur filemu)
+      image: "/images/toeic.jpeg" 
     },
     {
       id: 3,
@@ -358,8 +358,11 @@ function App(): JSX.Element {
   );
 
   return (
-    <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500">
+    <div className="bg-background text-on-background dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container transition-colors duration-500 relative">
       
+      {/* --- GRID PATTERN BACKGROUND (Modern Subtle Texture) --- */}
+      <div className="fixed inset-0 z-0 h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
       {/* --- EFEK SPOTLIGHT GLOBAL --- */}
       <CursorSpotlight />
 
@@ -369,7 +372,7 @@ function App(): JSX.Element {
           className={`pointer-events-auto w-full transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-between md:justify-center ${
             isScrolled 
               ? 'max-w-[100%] md:max-w-max bg-background/90 dark:bg-gray-800/90 backdrop-blur-md shadow-xl rounded-full border border-outline-variant/30 dark:border-gray-700/50' 
-              : 'max-w-full bg-background dark:bg-gray-900 shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
+              : 'max-w-full bg-background/50 dark:bg-gray-900/50 backdrop-blur-sm shadow-sm rounded-none border-b border-outline-variant/10 dark:border-gray-800'
           }`}
         >
           <div className={`flex items-center justify-between md:justify-center w-full max-w-7xl mx-auto transition-all duration-500 ${isScrolled ? 'py-3 px-4 md:px-6 gap-4 md:gap-8' : 'py-4 px-6 md:px-12 gap-4'}`}>
@@ -413,7 +416,7 @@ function App(): JSX.Element {
               </button>
               <button 
                 onClick={() => setIsDark(!isDark)}
-                className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface dark:bg-gray-800 p-1.5 md:p-2 rounded-full shadow-sm z-50 relative"
+                className="text-on-background dark:text-gray-200 hover:text-primary transition-colors flex items-center bg-surface/50 dark:bg-gray-800/50 backdrop-blur-sm p-1.5 md:p-2 rounded-full shadow-sm z-50 relative border border-outline-variant/20 dark:border-gray-700"
                 aria-label="Toggle Dark Mode"
               >
                 <span className="material-symbols-outlined text-lg md:text-xl">
@@ -459,8 +462,6 @@ function App(): JSX.Element {
           
           <FloatingParticles />
 
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background dark:via-gray-900/50 dark:to-gray-900 z-0"></div>
-
           <div className="absolute top-1/4 left-10 w-64 h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse z-0"></div>
           <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-tertiary-container dark:bg-tertiary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse z-0" style={{ animationDelay: '2s' }}></div>
           
@@ -470,17 +471,20 @@ function App(): JSX.Element {
                 {t.hero.role}
               </p>
               
-              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight text-on-background dark:text-white tracking-tight mt-6 flex flex-col items-center justify-center">
-                <span className="block mb-2">{t.hero.titleStart}</span>
-                <span className="block h-[1.3em] min-h-[1.3em] overflow-hidden">
+              <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-medium leading-tight tracking-tight mt-6 flex flex-col items-center justify-center">
+                {/* Gradient Text for Main Title */}
+                <span className="block mb-2 bg-gradient-to-r from-primary to-tertiary dark:from-primary-fixed dark:to-purple-400 bg-clip-text text-transparent pb-2">
+                  {t.hero.titleStart}
+                </span>
+                <span className="block h-[1.3em] min-h-[1.3em] overflow-hidden text-on-background dark:text-white">
                   <Typewriter words={t.hero.typewriterWords} />
                 </span>
-                <span className="block mt-2">{t.hero.titleEnd}</span>
+                <span className="block mt-2 text-on-background dark:text-white">{t.hero.titleEnd}</span>
               </h1>
             </div>
             
             <div className="animate-[fadeInUp_1s_ease-out_0.4s_both]">
-              <p className="font-body text-lg md:text-xl text-on-surface-variant dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mt-8">
+              <p className="font-body text-lg md:text-xl text-on-surface-variant dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mt-8 bg-background/50 dark:bg-gray-900/50 backdrop-blur-sm p-4 rounded-2xl">
                 {t.hero.desc}
               </p>
               <div className="pt-12">
@@ -493,8 +497,8 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- PROJECTS SECTION (GRID BENTO) --- */}
-        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-20 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="work">
+        {/* --- PROJECTS SECTION (BENTO GRID + GLASSMORPHISM) --- */}
+        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-lowest/50 dark:bg-gray-900/50 backdrop-blur-sm relative overflow-hidden z-20 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="work">
           <div className="max-w-6xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-16">
@@ -506,10 +510,11 @@ function App(): JSX.Element {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {projectsData.map((proj, index) => (
                 <FadeInSection key={proj.id} delay={`${index * 150}ms`}>
-                  <div className="group flex flex-col h-full bg-surface dark:bg-gray-800 rounded-3xl overflow-hidden border border-outline-variant/30 dark:border-gray-700 hover:border-primary dark:hover:border-primary-fixed transition-all duration-500 hover:-translate-y-2 shadow-sm hover:shadow-xl">
+                  {/* Glassmorphism Card */}
+                  <div className="group flex flex-col h-full bg-white/50 dark:bg-gray-800/30 backdrop-blur-md rounded-3xl overflow-hidden border border-outline-variant/30 dark:border-gray-700/50 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-all duration-500 hover:-translate-y-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                     
                     {/* Gambar Proyek dengan Efek Zoom */}
-                    <div className="relative w-full aspect-video overflow-hidden bg-surface-variant dark:bg-gray-900">
+                    <div className="relative w-full aspect-video overflow-hidden bg-surface-variant/50 dark:bg-gray-900/50">
                       {proj.image ? (
                         <img 
                           src={proj.image} 
@@ -534,7 +539,7 @@ function App(): JSX.Element {
                       {proj.tech && (
                         <div className="flex flex-wrap gap-2 mb-4">
                           {proj.tech.map((tech, i) => (
-                            <span key={i} className="px-3 py-1 text-[10px] sm:text-xs font-bold font-label rounded-full bg-primary-container dark:bg-gray-700 text-on-primary-container dark:text-gray-200">
+                            <span key={i} className="px-3 py-1 text-[10px] sm:text-xs font-bold font-label rounded-full bg-primary-container/80 dark:bg-gray-700/80 text-on-primary-container dark:text-gray-200">
                               {tech}
                             </span>
                           ))}
@@ -554,7 +559,7 @@ function App(): JSX.Element {
         </section>
 
         {/* --- ABOUT SECTION --- */}
-        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container dark:bg-gray-800/80 relative z-30 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="about">
+        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container/80 dark:bg-gray-800/80 backdrop-blur-sm relative z-30 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="about">
           <div className="max-w-7xl mx-auto relative">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-20">
@@ -587,7 +592,7 @@ function App(): JSX.Element {
         </section>
 
         {/* --- EXPERTISE SECTION --- */}
-        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-low dark:bg-gray-900 relative z-40 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="skills">
+        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-low/80 dark:bg-gray-900/80 backdrop-blur-sm relative z-40 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="skills">
           <div className="max-w-7xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-20">
@@ -598,7 +603,7 @@ function App(): JSX.Element {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FadeInSection delay="100ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                <div className="bg-white/50 dark:bg-gray-800/30 backdrop-blur-md p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700/50 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
                   <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">computer</span>
                   <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s1}</h3>
                   <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s1Desc}</p>
@@ -606,7 +611,7 @@ function App(): JSX.Element {
               </FadeInSection>
               
               <FadeInSection delay="200ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                <div className="bg-white/50 dark:bg-gray-800/30 backdrop-blur-md p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700/50 hover:border-tertiary/50 dark:hover:border-tertiary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
                   <span className="material-symbols-outlined text-tertiary dark:text-tertiary-fixed text-4xl mb-6 bg-tertiary/10 dark:bg-tertiary-fixed/10 p-4 rounded-xl inline-block">language</span>
                   <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s2}</h3>
                   <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s2Desc}</p>
@@ -614,7 +619,7 @@ function App(): JSX.Element {
               </FadeInSection>
               
               <FadeInSection delay="300ms">
-                <div className="bg-surface dark:bg-gray-800 p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
+                <div className="bg-white/50 dark:bg-gray-800/30 backdrop-blur-md p-8 rounded-2xl border border-outline-variant/30 dark:border-gray-700/50 hover:border-primary/50 dark:hover:border-primary-fixed/50 hover:-translate-y-2 transition-all duration-500 h-full relative z-20">
                   <span className="material-symbols-outlined text-primary dark:text-primary-fixed text-4xl mb-6 bg-primary/10 dark:bg-primary-fixed/10 p-4 rounded-xl inline-block">groups</span>
                   <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3">{t.skills.s3}</h3>
                   <p className="font-body text-on-surface-variant dark:text-gray-400">{t.skills.s3Desc}</p>
@@ -625,7 +630,7 @@ function App(): JSX.Element {
         </section>
 
         {/* --- EXPERIENCE SECTION (STACKED CARDS) --- */}
-        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface dark:bg-gray-800/60 relative z-50 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="experience">
+        <section className="pt-32 pb-48 px-6 md:px-12 bg-surface/80 dark:bg-gray-800/60 backdrop-blur-sm relative z-50 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="experience">
           <div className="max-w-5xl mx-auto">
             <FadeInSection>
               <div className="flex items-baseline justify-between mb-16">
@@ -637,10 +642,10 @@ function App(): JSX.Element {
             <div className="space-y-8">
               {experiencesData.map((exp, index) => (
                 <FadeInSection key={exp.id} delay={`${index * 150}ms`}>
-                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 bg-surface-container-lowest dark:bg-gray-800 p-6 md:p-8 rounded-3xl border border-outline-variant/20 dark:border-gray-700 hover:border-primary/50 transition-colors shadow-sm group">
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-outline-variant/20 dark:border-gray-700/50 hover:border-primary/50 dark:hover:border-primary-fixed/50 transition-colors shadow-sm hover:shadow-lg group">
                     
                     {/* Thumbnail Kiri */}
-                    <div className="w-full md:w-1/3 aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden bg-surface-variant dark:bg-gray-900 shrink-0 relative">
+                    <div className="w-full md:w-1/3 aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden bg-surface-variant/50 dark:bg-gray-800 shrink-0 relative">
                       {exp.image ? (
                         <img 
                           src={exp.image} 
@@ -676,7 +681,7 @@ function App(): JSX.Element {
         </section>
 
         {/* --- CONTACT SECTION --- */}
-        <section className="pt-32 pb-40 px-6 md:px-12 bg-secondary-container dark:bg-gray-900 relative overflow-hidden z-[60] -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="contact">
+        <section className="pt-32 pb-40 px-6 md:px-12 bg-secondary-container/90 dark:bg-gray-900/90 backdrop-blur-sm relative overflow-hidden z-[60] -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="contact">
           <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
           
