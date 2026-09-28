@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
 
 // --- TIPE DATA ---
-interface CarouselItem {
+interface PortfolioItem {
   id: number;
   title: string;
   role?: string;
   descEn: string;
   descId: string;
   image: string;
+  tech?: string[]; // Tambahan untuk Tech Stack Badges
 }
 
 interface FadeInSectionProps {
@@ -225,17 +226,12 @@ const FadeInSection = ({ children, delay = '0ms' }: FadeInSectionProps) => {
 function App(): JSX.Element {
   // Global States
   const [lang, setLang] = useState<'en' | 'id'>('en');
-  // Diubah jadi false agar default-nya Light Mode
   const [isDark, setIsDark] = useState<boolean>(false);
   
   // UI & Animation States
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  
-  // Carousel States
-  const [currentExpSlide, setCurrentExpSlide] = useState<number>(0);
-  const [currentProjSlide, setCurrentProjSlide] = useState<number>(0);
 
   const t = dict[lang];
 
@@ -254,7 +250,6 @@ function App(): JSX.Element {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      
       setIsScrolled(scrollY > 80);
 
       const sections = ['work', 'about', 'skills', 'experience', 'contact'];
@@ -283,53 +278,46 @@ function App(): JSX.Element {
     }
   }, [isMobileMenuOpen]);
 
-  // Tutup mobile menu ketika link di klik
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   // Data Projects 
-  const projectsData: CarouselItem[] = [
+  const projectsData: PortfolioItem[] = [
     {
       id: 1,
       title: "Libraria - E-Library Platform",
       descEn: "A digital library management system built to efficiently handle book inventories, user borrowing logs, and digital catalogs.",
       descId: "Sistem manajemen perpustakaan digital yang dibangun untuk mengelola inventaris buku, log peminjaman, dan katalog digital secara efisien.",
-      image: "/images/projeklibraria.jpg" 
+      image: "/images/projeklibraria.jpg",
+      tech: ["React", "TailwindCSS", "Node.js"] // Silakan disesuaikan dengan stack aslimu
     },
     {
       id: 2,
       title: "Point of Sales (Sistem Kasir)",
       descEn: "A functional POS system designed to manage daily transactions, print receipts, and maintain product stock records.",
       descId: "Sistem kasir fungsional yang dirancang untuk mengelola transaksi harian, mencetak struk, dan memelihara catatan stok produk.",
-      image: "/images/projekkasir.jpg" 
+      image: "/images/projekkasir.jpg",
+      tech: ["PHP", "MySQL", "Bootstrap"]
     },
     {
       id: 3,
       title: "E-Parking System",
       descEn: "A digital parking management system designed to track vehicle entry/exit, calculate dynamic parking fees, and generate reports.",
       descId: "Sistem manajemen parkir digital yang dirancang untuk melacak keluar/masuk kendaraan, menghitung tarif parkir dinamis, dan menghasilkan laporan.",
-      image: "/images/projekparkir.jpg" 
+      image: "/images/projekparkir.jpg",
+      tech: ["React", "Express", "TailwindCSS"]
     },
     {
       id: 4,
       title: "Five'r - Multimedia Campaign",
       descEn: "A creative digital promotional campaign for traditional Indonesian snacks (Es Poteng & Klepon Kecerit), utilizing beautiful Ghibli-inspired visual styles and animations.",
       descId: "Kampanye promosi digital kreatif untuk jajanan tradisional Indonesia (Es Poteng & Klepon Kecerit), memanfaatkan gaya visual estetik dan animasi yang terinspirasi dari Studio Ghibli.",
-      image: "/images/projekfiver.jpg" 
+      image: "/images/projekfiver.jpg",
+      tech: ["Figma", "Premiere Pro", "After Effects"]
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-    }, 4500); 
-    return () => clearInterval(timer);
-  }, [projectsData.length]);
-
-  const nextProjSlide = () => setCurrentProjSlide((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-  const prevProjSlide = () => setCurrentProjSlide((prev) => (prev === 0 ? projectsData.length - 1 : prev - 1));
-
   // Data Pengalaman
-  const experiencesData: CarouselItem[] = [
+  const experiencesData: PortfolioItem[] = [
     {
       id: 1,
       title: "Internship (Praktik Kerja Lapangan)",
@@ -344,7 +332,7 @@ function App(): JSX.Element {
       role: "English Proficiency Award",
       descEn: "Achieved the highest TOEIC score in school with a 950 in 2025, a significant improvement from 920 in 2024. Demonstrates professional-level English proficiency ready for global business communication.",
       descId: "Meraih skor TOEIC tertinggi di sekolah dengan nilai 950 pada tahun 2025, meningkat dari skor 920 pada tahun 2024. Menunjukkan tingkat kemahiran bahasa Inggris profesional yang siap untuk komunikasi bisnis global.",
-      image: "/images/toeci.jpeg" 
+      image: "/images/toeic.jpeg" // Memperbaiki typo di nama file dari toeci.jpeg menjadi toeic.jpeg (berdasarkan struktur filemu)
     },
     {
       id: 3,
@@ -355,9 +343,6 @@ function App(): JSX.Element {
       image: "/images/usk.jpeg" 
     }
   ];
-
-  const nextExpSlide = () => setCurrentExpSlide((prev) => (prev === experiencesData.length - 1 ? 0 : prev + 1));
-  const prevExpSlide = () => setCurrentExpSlide((prev) => (prev === 0 ? experiencesData.length - 1 : prev - 1));
 
   // --- SVG Icons ---
   const GithubIcon = () => (
@@ -379,10 +364,6 @@ function App(): JSX.Element {
       <CursorSpotlight />
 
       {/* --- DYNAMIC NAVBAR --- */}
-      {/* 
-        FIX 1: z-[110] memastikan navbar selalu di atas semua section bertumpuk.
-        FIX 2: Wrapper fix agar animasi max-width mulus dan tidak lompat/patah. 
-      */}
       <header className={`fixed top-0 left-0 right-0 z-[110] flex justify-center transition-all duration-500 ease-in-out pointer-events-none ${isScrolled ? 'pt-4 px-4' : 'pt-0 px-0'}`}>
         <nav 
           className={`pointer-events-auto w-full transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-between md:justify-center ${
@@ -446,7 +427,6 @@ function App(): JSX.Element {
       </header>
 
       {/* --- MOBILE FULLSCREEN MENU --- */}
-      {/* Diperbarui z-index ke 100 agar aman dari section bertumpuk */}
       <div 
         className={`fixed inset-0 z-[100] bg-background/95 dark:bg-gray-900/95 backdrop-blur-lg flex flex-col items-center justify-center transition-all duration-500 ease-in-out md:hidden ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -479,10 +459,6 @@ function App(): JSX.Element {
           
           <FloatingParticles />
 
-          <div 
-            className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-center bg-fixed transition-opacity duration-1000"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
-          ></div>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background dark:via-gray-900/50 dark:to-gray-900 z-0"></div>
 
           <div className="absolute top-1/4 left-10 w-64 h-64 bg-surface-container-low dark:bg-primary-container/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse z-0"></div>
@@ -517,7 +493,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- PROJECTS SECTION --- */}
+        {/* --- PROJECTS SECTION (GRID BENTO) --- */}
         <section className="pt-32 pb-48 px-6 md:px-12 bg-surface-container-lowest dark:bg-gray-900 relative overflow-hidden z-20 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="work">
           <div className="max-w-6xl mx-auto">
             <FadeInSection>
@@ -527,62 +503,53 @@ function App(): JSX.Element {
               </div>
             </FadeInSection>
 
-            <FadeInSection delay="200ms">
-              <div className="relative w-full aspect-[4/3] md:aspect-[16/7] bg-surface-variant dark:bg-gray-800 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(46,50,48,0.08)] group border border-outline-variant/20 dark:border-gray-700">
-                {projectsData.map((proj, index) => (
-                  <div
-                    key={proj.id}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                      index === currentProjSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                    }`}
-                  >
-                    {proj.image ? (
-                      <img src={proj.image} alt={proj.title} className="w-full h-full object-cover object-top" />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
-                        <span className="material-symbols-outlined text-6xl mb-4 opacity-50">web</span>
-                        <span className="font-label text-sm tracking-widest uppercase opacity-70 text-center px-4">[ Insert {proj.title} Screenshot ]</span>
-                      </div>
-                    )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {projectsData.map((proj, index) => (
+                <FadeInSection key={proj.id} delay={`${index * 150}ms`}>
+                  <div className="group flex flex-col h-full bg-surface dark:bg-gray-800 rounded-3xl overflow-hidden border border-outline-variant/30 dark:border-gray-700 hover:border-primary dark:hover:border-primary-fixed transition-all duration-500 hover:-translate-y-2 shadow-sm hover:shadow-xl">
                     
-                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-12 bg-gradient-to-t from-black/90 via-black/70 to-transparent">
-                      <div className="max-w-2xl mt-12 md:mt-0">
-                        <h3 className="font-headline text-2xl md:text-4xl text-white mb-2">{proj.title}</h3>
-                        <p className="font-body text-gray-200 text-xs md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
-                          {lang === 'en' ? proj.descEn : proj.descId}
-                        </p>
-                      </div>
+                    {/* Gambar Proyek dengan Efek Zoom */}
+                    <div className="relative w-full aspect-video overflow-hidden bg-surface-variant dark:bg-gray-900">
+                      {proj.image ? (
+                        <img 
+                          src={proj.image} 
+                          alt={proj.title} 
+                          className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-700 ease-in-out" 
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600">
+                          <span className="material-symbols-outlined text-4xl mb-2 opacity-50">web</span>
+                          <span className="font-label text-xs tracking-widest uppercase opacity-70">No Image</span>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
+
+                    {/* Detail Konten & Tech Badges */}
+                    <div className="p-6 md:p-8 flex flex-col flex-grow">
+                      <h3 className="font-headline text-2xl text-on-background dark:text-white mb-3 group-hover:text-primary dark:group-hover:text-primary-fixed transition-colors">
+                        {proj.title}
+                      </h3>
+                      
+                      {proj.tech && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {proj.tech.map((tech, i) => (
+                            <span key={i} className="px-3 py-1 text-[10px] sm:text-xs font-bold font-label rounded-full bg-primary-container dark:bg-gray-700 text-on-primary-container dark:text-gray-200">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <p className="font-body text-on-surface-variant dark:text-gray-400 text-sm md:text-base leading-relaxed mb-6 flex-grow">
+                        {lang === 'en' ? proj.descEn : proj.descId}
+                      </p>
+                    </div>
+
                   </div>
-                ))}
-
-                {/* Arrow Navigation for Projects */}
-                <button 
-                  onClick={prevProjSlide} 
-                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
-                </button>
-                <button 
-                  onClick={nextProjSlide} 
-                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                >
-                  <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
-                </button>
-
-                <div className="absolute top-4 right-4 md:top-6 md:right-8 z-20 flex gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full">
-                  {projectsData.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentProjSlide(index)}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        index === currentProjSlide ? "bg-primary-fixed w-4 md:w-6" : "bg-white/50 w-1.5 md:w-2 hover:bg-white"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </FadeInSection>
+                </FadeInSection>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -657,7 +624,7 @@ function App(): JSX.Element {
           </div>
         </section>
 
-        {/* --- EXPERIENCE SECTION --- */}
+        {/* --- EXPERIENCE SECTION (STACKED CARDS) --- */}
         <section className="pt-32 pb-48 px-6 md:px-12 bg-surface dark:bg-gray-800/60 relative z-50 -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="experience">
           <div className="max-w-5xl mx-auto">
             <FadeInSection>
@@ -667,73 +634,49 @@ function App(): JSX.Element {
               </div>
             </FadeInSection>
 
-            <FadeInSection delay="200ms">
-              <div className="relative bg-surface-container-lowest dark:bg-gray-800 rounded-3xl p-6 md:p-10 shadow-sm border border-outline-variant/20 dark:border-gray-700">
-                <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden bg-surface-variant dark:bg-gray-900 mb-8 group">
-                  {experiencesData.map((exp, index) => (
-                    <div
-                      key={exp.id}
-                      className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                        index === currentExpSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                      }`}
-                    >
+            <div className="space-y-8">
+              {experiencesData.map((exp, index) => (
+                <FadeInSection key={exp.id} delay={`${index * 150}ms`}>
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 bg-surface-container-lowest dark:bg-gray-800 p-6 md:p-8 rounded-3xl border border-outline-variant/20 dark:border-gray-700 hover:border-primary/50 transition-colors shadow-sm group">
+                    
+                    {/* Thumbnail Kiri */}
+                    <div className="w-full md:w-1/3 aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden bg-surface-variant dark:bg-gray-900 shrink-0 relative">
                       {exp.image ? (
-                        <img src={exp.image} alt={exp.title} className="w-full h-full object-cover" />
+                        <img 
+                          src={exp.image} 
+                          alt={exp.title} 
+                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
+                        />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-outline dark:text-gray-600 bg-surface-variant dark:bg-gray-900">
-                          <span className="material-symbols-outlined text-6xl mb-2 opacity-50">photo_library</span>
-                          <span className="font-label text-sm tracking-widest uppercase opacity-70">{t.exp.photoHint}</span>
+                          <span className="material-symbols-outlined text-4xl mb-2 opacity-50">photo_library</span>
+                          <span className="font-label text-xs tracking-widest uppercase opacity-70">{t.exp.photoHint}</span>
                         </div>
                       )}
                     </div>
-                  ))}
 
-                  {/* Arrow Navigation for Experience */}
-                  <button 
-                    onClick={prevExpSlide} 
-                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                  >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_left</span>
-                  </button>
-                  <button 
-                    onClick={nextExpSlide} 
-                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-inverse-surface/40 hover:bg-primary dark:bg-black/50 dark:hover:bg-primary-fixed text-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"
-                  >
-                    <span className="material-symbols-outlined text-lg md:text-2xl">chevron_right</span>
-                  </button>
-                </div>
-
-                <div className="text-center md:text-left min-h-[140px] px-4 md:px-0 relative z-20">
-                  <h3 className="font-headline text-2xl md:text-3xl text-on-background dark:text-white mb-2">{experiencesData[currentExpSlide].title}</h3>
-                  <p className="font-label text-xs md:text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-4">{experiencesData[currentExpSlide].role}</p>
-                  <p className="font-body text-sm md:text-lg text-on-surface-variant dark:text-gray-400 leading-relaxed max-w-3xl">
-                    {lang === 'en' ? experiencesData[currentExpSlide].descEn : experiencesData[currentExpSlide].descId}
-                  </p>
-                </div>
-
-                <div className="flex justify-center md:justify-start gap-3 mt-8 px-4 md:px-0 relative z-20">
-                  {experiencesData.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentExpSlide(index)}
-                      className={`h-1.5 md:h-2 rounded-full transition-all duration-500 ${
-                        index === currentExpSlide ? "bg-primary dark:bg-primary-fixed w-6 md:w-8" : "bg-outline-variant dark:bg-gray-600 w-1.5 md:w-2 hover:bg-outline dark:hover:bg-gray-500"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </FadeInSection>
+                    {/* Konten Kanan */}
+                    <div className="flex flex-col justify-center flex-grow">
+                      <p className="font-label text-sm text-primary dark:text-primary-fixed font-bold uppercase tracking-widest mb-2">
+                        {exp.role}
+                      </p>
+                      <h3 className="font-headline text-2xl md:text-3xl text-on-background dark:text-white mb-4">
+                        {exp.title}
+                      </h3>
+                      <p className="font-body text-sm md:text-base text-on-surface-variant dark:text-gray-400 leading-relaxed">
+                        {lang === 'en' ? exp.descEn : exp.descId}
+                      </p>
+                    </div>
+                    
+                  </div>
+                </FadeInSection>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* --- CONTACT SECTION --- */}
         <section className="pt-32 pb-40 px-6 md:px-12 bg-secondary-container dark:bg-gray-900 relative overflow-hidden z-[60] -mt-24 rounded-t-[3rem] border-t border-outline-variant/20 dark:border-white/5 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" id="contact">
-          <div 
-            className="absolute inset-0 z-0 opacity-[0.1] dark:opacity-[0.05] pointer-events-none mix-blend-multiply dark:mix-blend-screen bg-cover bg-bottom transition-opacity duration-1000"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542459954-d47f12363b96?auto=format&fit=crop&q=80&w=2000')" }}
-          ></div>
-
           <div className="absolute top-0 right-0 w-96 h-96 bg-tertiary-container dark:bg-tertiary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform translate-x-1/2 -translate-y-1/2 z-0"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-container dark:bg-primary-container/10 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform -translate-x-1/2 translate-y-1/2 z-0"></div>
           
