@@ -229,7 +229,9 @@ function App(): JSX.Element {
   
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  
+  // FIX: Dihapus setIsMobileMenuOpen karena menyebabkan error "unused variable"
+  const [isMobileMenuOpen] = useState<boolean>(false);
 
   const t = dict[lang];
 
